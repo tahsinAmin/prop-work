@@ -185,6 +185,53 @@ export default function DashboardView() {
 
   return (
     <>
+      <Box 
+        sx={{
+          position: 'relative',
+          height: '200px',
+          borderRadius: '16px',
+          overflow: 'hidden',
+          mb: 4,
+          backgroundImage: 'url("/banner.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(255, 255, 255, 0.25)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+          },
+        }}
+      >
+        <Typography 
+          variant="h3" 
+          sx={{
+            position: 'relative',
+            zIndex: 1,
+            color: '#fff',
+            textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            p: {xs: 2, md: 4},
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            borderRadius: '12px',
+            backdropFilter: 'blur(4px)',
+            width: {xs: '80%', md: '60%', lg: '40%', xl: '30%'}
+          }}
+        >
+          Get your best deals with
+           Gamenote Events!
+        </Typography>
+      </Box>
+      
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4">Dashboard</Typography>
         

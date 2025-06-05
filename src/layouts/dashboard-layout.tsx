@@ -88,7 +88,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           backgroundColor: 'white',
           color: 'text.primary',
           borderBottom: '1px solid #f0f0f0',
-          paddingTop: '75px',
         }}
       >
         <Toolbar>
@@ -198,12 +197,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         sx={{ 
           flexGrow: 1,
           p: 3,
+          pl: { xs: 3, xl: '100px' },
+          pr: { xs: 3, xl: '140px' },
           width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
           transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
           }),
-          minHeight: '100vh'
+          minHeight: '100vh',
+          maxWidth: '100%',
+          overflowX: 'hidden'
         }}
       >
         <Toolbar /> {/* Spacer to push content below app bar */}

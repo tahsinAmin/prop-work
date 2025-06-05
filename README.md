@@ -1,3 +1,4 @@
+[] Working on 1920, 1440, 768 & 480 px first
 [] Light/Dark Mode https://v6.mui.com/material-ui/react-switch/#customization
 [] Notification icon https://v6.mui.com/material-ui/react-badge/#dot-badge
 [] Common layout for all
@@ -37,7 +38,7 @@ Event Details
 20
 21
 22
-23
+23 Working on 1920, 1440, 768 & 480 px first
 
 2025.06.06
 9  Tech requirements:
