@@ -30,6 +30,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import { getOffers, Offer, OffersParams } from "@/services/offers-service";
+import { getEvents } from "@/services/events-service";
 
 // Mock data for fallback
 const MOCK_OFFERS: Offer[] = [
@@ -159,6 +160,8 @@ const OfferList: React.FC<OfferListProps> = () => {
         }
 
         const response = await getOffers(params);
+        const events = await getEvents();
+        console.log("events", events);
         setOffers(response.data);
 
         // Handle pagination metadata
@@ -303,23 +306,23 @@ const OfferList: React.FC<OfferListProps> = () => {
               }}
             />
 
-              <FormControl>
-                <InputLabel>Type</InputLabel>
-                <Select               
-                  value={filterType.toLowerCase()}
-                  size="medium"
-                  label="Type"
-                  onChange={handleTypeChange}
-                  sx={{ 
-                    width: { xs: '150px', sm: '200px' } 
-                  }}
-                >
-                  <MenuItem value="all">All</MenuItem>
-                  <MenuItem value="monthly">Monthly</MenuItem>
-                  <MenuItem value="yearly">Yearly</MenuItem>
-                  <MenuItem value="pay as you go">Pay As You Go</MenuItem>
-                </Select>
-              </FormControl>
+            <FormControl>
+              <InputLabel>Type</InputLabel>
+              <Select
+                value={filterType.toLowerCase()}
+                size="medium"
+                label="Type"
+                onChange={handleTypeChange}
+                sx={{
+                  width: { xs: "150px", sm: "200px" },
+                }}
+              >
+                <MenuItem value="all">All</MenuItem>
+                <MenuItem value="monthly">Monthly</MenuItem>
+                <MenuItem value="yearly">Yearly</MenuItem>
+                <MenuItem value="pay as you go">Pay As You Go</MenuItem>
+              </Select>
+            </FormControl>
           </Box>
         </Box>
 
