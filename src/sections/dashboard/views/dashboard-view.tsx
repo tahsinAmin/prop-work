@@ -6,6 +6,11 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { Button, Grid } from '@mui/material';
 
 // Import custom components
 import OfferList from '@/components/dashboard/offer-list';
@@ -16,11 +21,64 @@ import { mockDashboardData } from '@/data/mock-dashboard-data';
 
 // Dashboard filter options
 
+const categories = {
+  real_estate: [
+    'property_showcase_launch',
+    'investor_summit',
+    'developer_meetup',
+    'real_estate_expo_trade_show',
+    'government_legal_update'
+  ],
+  luxury_asset: [
+    'luxury_car_exhibition',
+    'yacht_jet_showcase',
+    'luxury_watch_collectible'
+  ],
+  educational_and_training: [
+    'real_estate_sales_training',
+    'investment_financial_workshop',
+    'luxury_market_insight',
+    'marketing_digital_growth_training'
+  ],
+  networking_and_business_growth: [
+    'vip_networking_event',
+    'b2b_collaboration_meetup',
+    'industry_panel_discussion'
+  ],
+  webinars_online: [
+    'live_real_estate_webinar',
+    'luxury_market_insight_webinar',
+    'developer_qa_session',
+    'training_academy_webinar'
+  ],
+  social_and_exclusive: [
+    'private_invitation_only_event',
+    'exclusive_property_tour',
+    'propadya_community_meetup'
+  ]
+};
+
+const filter = 'this-week';
+
 export default function DashboardView() {
-  const [filter, setFilter] = useState('this-week');
+  const filter = 'this-week';
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedSubCategory, setSelectedSubCategory] = useState('');
   const [dashboardData, setDashboardData] = useState<{ current: DashboardStats; previous: DashboardStats } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleCategoryChange = (event: SelectChangeEvent) => {
+    setSelectedCategory(event.target.value);
+    setSelectedSubCategory(''); // Reset sub-category when category changes
+  };
+
+  const handleSubCategoryChange = (event: SelectChangeEvent) => {
+    setSelectedSubCategory(event.target.value);
+  };
+
+  // Get sub-categories based on selected category
+  const subCategories = selectedCategory ? categories[selectedCategory as keyof typeof categories] : [];
 
   // Fetch dashboard data
   useEffect(() => {
@@ -172,6 +230,58 @@ export default function DashboardView() {
           Get your best deals with Gamenote Events!
         </Typography>
       </Box>
+      <Box sx={{ mb: 4 }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={3}>
+            <FormControl fullWidth>
+              <InputLabel id="category-label">Select Category</InputLabel>
+              <Select
+                labelId="category-label"
+                id="category-select"
+                value={selectedCategory}
+                label="Select Category"
+                onChange={handleCategoryChange}
+                fullWidth
+                sx={{
+                  borderRadius: '28px',
+                  color: '#2065D1'
+                }}
+              >
+                {Object.keys(categories).map((category) => (
+                  <MenuItem key={category} value={category}>
+                    {category.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <FormControl fullWidth disabled={!selectedCategory}>
+              <InputLabel id="subcategory-label">Select Sub Category</InputLabel>
+              <Select
+                labelId="subcategory-label"
+                id="subcategory-select"
+                value={selectedSubCategory}
+                label="Select Sub Category"
+                onChange={handleSubCategoryChange}
+                fullWidth
+                sx={{
+                  borderRadius: '28px',
+                  color: '#2065D1'
+                }}
+              >
+                {subCategories.map((subCategory) => (
+                  <MenuItem key={subCategory} value={subCategory}>
+                    {subCategory.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          
+        </Grid>
+      </Box>
+
 
       {loading && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
