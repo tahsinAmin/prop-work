@@ -63,7 +63,7 @@ const data = {
       "text_color": "#000000",
       "bg_color": "#ffffff",
       "status": "approved",
-      "admin_comment": null
+      "admin_comment": "RAK Properties"
     },
     {
       "id": 2,
@@ -99,7 +99,7 @@ const data = {
       "text_color": "#000000",
       "bg_color": "#ffffff",
       "status": "pending",
-      "admin_comment": null
+      "admin_comment": "RAK Properties"
     },
     {
       "id": 3,
@@ -135,10 +135,10 @@ const data = {
       "text_color": "#000000",
       "bg_color": "#ffffff",
       "status": "rejected",
-      "admin_comment": null
+      "admin_comment": "RAK Properties"
     },
     {
-      "id": 2,
+      "id": 4,
       "deletion_time": null,
       "created_at": "2025-06-01T05:37:22.419949Z",
       "updated_at": "2025-06-01T05:37:22.419983Z",
@@ -171,10 +171,10 @@ const data = {
       "text_color": "#000000",
       "bg_color": "#ffffff",
       "status": "approved",
-      "admin_comment": null
+      "admin_comment": "RAK Properties"
     },
     {
-      "id": 2,
+      "id": 5,
       "deletion_time": null,
       "created_at": "2025-06-01T05:37:22.419949Z",
       "updated_at": "2025-06-01T05:37:22.419983Z",
@@ -207,7 +207,365 @@ const data = {
       "text_color": "#000000",
       "bg_color": "#ffffff",
       "status": "approved",
-      "admin_comment": null
+      "admin_comment": "RAK Properties"
+    }, {
+      "id": 6,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "approved",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 7,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "pending",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 8,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "rejected",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 9,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "approved",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 10,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "approved",
+      "admin_comment": "RAK Properties"
+    }, {
+      "id": 11,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "approved",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 12,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "pending",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 13,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "rejected",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 14,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "approved",
+      "admin_comment": "RAK Properties"
+    },
+    {
+      "id": 15,
+      "deletion_time": null,
+      "created_at": "2025-06-01T05:37:22.419949Z",
+      "updated_at": "2025-06-01T05:37:22.419983Z",
+      "is_active": true,
+      "title": "Ajmon Brokers Event",
+      "description": "This is a sample event description.",
+      "start_date": "2025-03-18",
+      "end_date": "2025-03-18",
+      "is_all_day": true,
+      "start_time": "10:00:00",
+      "end_time": "19:00:00",
+      "event_image": null,
+      "event_video": "https://example.com/video.mp4",
+      "event_type": "online",
+      "registration_available": true,
+      "registration_last_date": "2025-03-19",
+      "registration_link": "https://example.com/register",
+      "category": [
+        "real_estate"
+      ],
+      "sub_category": [
+        "property_showcase_launch"
+      ],
+      "meeting_link": "https://example.com/meeting",
+      "country": "Dubai",
+      "district": null,
+      "city": "Al Ain",
+      "location": "UAE",
+      "location_link": null,
+      "text_color": "#000000",
+      "bg_color": "#ffffff",
+      "status": "approved",
+      "admin_comment": "RAK Properties"
     }
   ]
 }
@@ -245,10 +603,10 @@ export interface EventList {
   admin_comment: string;
 }
 
-export async function getEvents() {  
+export async function getEvents() {
   const url = `${API_EVENT_URL}/api/events/user/`;
   console.log("Attempting to fetch from URL:", url);
-  
+
   try {
     const response = await axios.get(url, {
       headers: {
@@ -257,12 +615,12 @@ export async function getEvents() {
       },
       timeout: 10000,
     });
-    
+
     console.log("Response received:", {
       status: response.status,
       data: response.data
     });
-    
+
     return response.data;
   } catch (error) {
     console.log("Error fetching events:", error);
@@ -283,11 +641,11 @@ export async function getDashboardStats(filter: string = 'this-week'): Promise<D
   // Get token from localStorage since we don't have direct access to auth context here
   const userData = localStorage.getItem('mta_user');
   const token = userData ? JSON.parse(userData).token : null;
-  
+
   if (!token) {
     throw new Error('Authentication required');
   }
-  
+
   try {
     const response = await axios.get(`${API_URL}/dashboard/stat`, {
       params: { filter },
@@ -295,7 +653,7 @@ export async function getDashboardStats(filter: string = 'this-week'): Promise<D
         Authorization: `Bearer ${token}`
       }
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error fetching dashboard stats:', error);
@@ -312,7 +670,7 @@ export async function getComparisonStats(currentFilter: string = 'this-week', pr
       getDashboardStats(currentFilter),
       getDashboardStats(prevFilter)
     ]);
-    
+
     return { current, previous };
   } catch (error) {
     console.error('Error fetching comparison stats:', error);
