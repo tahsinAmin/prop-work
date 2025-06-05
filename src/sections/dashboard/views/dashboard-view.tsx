@@ -2,19 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
 
 // Import custom components
-import MetricCard from '@/components/dashboard/metric-card';
-import BarChart from '@/components/dashboard/bar-chart';
-import LineChart from '@/components/dashboard/line-chart';
 import OfferList from '@/components/dashboard/offer-list';
 
 // Import dashboard service
