@@ -22,10 +22,6 @@ import { DashboardStats } from '@/services/dashboard-service';
 import { mockDashboardData } from '@/data/mock-dashboard-data';
 
 // Dashboard filter options
-const FILTER_OPTIONS = [
-  { value: 'this-week', label: 'This Week' },
-  { value: 'prev-week', label: 'Last Week' },
-];
 
 export default function DashboardView() {
   const [filter, setFilter] = useState('this-week');
@@ -122,51 +118,6 @@ export default function DashboardView() {
     fetchData();
   }, [filter]);
 
-  // Format the data for charts
-  const formatChartData = () => {
-    if (!dashboardData) return null;
-
-    const { current } = dashboardData;
-    
-    // Website visits data
-    const websiteVisitsData = {
-      categories: Object.keys(current.website_visits).map(day => 
-        day.substring(0, 3).charAt(0).toUpperCase() + day.substring(1, 3)
-      ),
-      series: [
-        {
-          name: 'Desktop',
-          data: Object.values(current.website_visits).map(data => data.desktop),
-          color: '#00A389' // Teal color from the image
-        },
-        {
-          name: 'Mobile',
-          data: Object.values(current.website_visits).map(data => data.mobile),
-          color: '#FFB547' // Orange color from the image
-        }
-      ]
-    };
-
-    // Offers sent data
-    const offersSentData = {
-      categories: Object.keys(current.offers_sent).map(day => 
-        day.substring(0, 3).charAt(0).toUpperCase() + day.substring(1, 3)
-      ),
-      series: [
-        {
-          name: 'Offers Sent',
-          data: Object.values(current.offers_sent),
-          color: '#000000' // Black line color
-        }
-      ]
-    };
-
-    return {
-      websiteVisits: websiteVisitsData,
-      offersSent: offersSentData
-    };
-  };
-
   // Calculate percentage change between current and previous period
   const calculatePercentageChange = (current: number, previous: number) => {
     if (previous === 0) return 0;
@@ -180,8 +131,6 @@ export default function DashboardView() {
     }
     return num.toString();
   };
-
-  const chartData = formatChartData();
 
   return (
     <>
@@ -227,28 +176,8 @@ export default function DashboardView() {
             width: {xs: '80%', md: '60%', lg: '40%', xl: '30%'}
           }}
         >
-          Get your best deals with
-           Gamenote Events!
+          Get your best deals with Gamenote Events!
         </Typography>
-      </Box>
-      
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4">Dashboard</Typography>
-        
-        <FormControl size="small" sx={{ minWidth: 120 }}>
-          <Select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            displayEmpty
-            variant="outlined"
-          >
-            {FILTER_OPTIONS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
       </Box>
 
       {loading && (
@@ -265,55 +194,6 @@ export default function DashboardView() {
 
       {!loading && !error && dashboardData && (
         <>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
-              <MetricCard
-                title="Total active users"
-                value="8.2k"
-                percentChange={8.2}
-                period="previous month"
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <MetricCard
-                title="Total clicks"
-                value="8.2k"
-                percentChange={8.2}
-                period="previous month"
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <MetricCard
-                title="Total appearances"
-                value="8.2k"
-                percentChange={8.2}
-                period="previous month"
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={3} sx={{ mt: 1 }}>
-            <Grid item xs={12} md={6}>
-              {chartData && (
-                <BarChart
-                  title="Website visits"
-                  series={chartData.websiteVisits.series}
-                  categories={chartData.websiteVisits.categories}
-                />
-              )}
-            </Grid>
-            <Grid item xs={12} md={6}>
-              {chartData && (
-                <LineChart
-                  title="Offers sent"
-                  series={chartData.offersSent.series}
-                  categories={chartData.offersSent.categories}
-                />
-              )}
-            </Grid>
-          </Grid>
-          
-          {/* Offer List Section */}
           <OfferList />
         </>
       )}
