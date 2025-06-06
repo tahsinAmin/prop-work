@@ -10,7 +10,8 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, InputAdornment, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 // Import custom components
 import OfferList from '@/components/dashboard/offer-list';
@@ -61,7 +62,6 @@ const categories = {
 const filter = 'this-week';
 
 export default function DashboardView() {
-  const filter = 'this-week';
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubCategory, setSelectedSubCategory] = useState('');
   const [dashboardData, setDashboardData] = useState<{ current: DashboardStats; previous: DashboardStats } | null>(null);
@@ -185,7 +185,7 @@ export default function DashboardView() {
 
   return (
     <>
-      <Box 
+    <Box 
         sx={{
           position: 'relative',
           height: '200px',
@@ -232,6 +232,27 @@ export default function DashboardView() {
       </Box>
       <Box sx={{ mb: 4 }}>
         <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={2}>
+            <TextField
+              fullWidth
+              placeholder="Search..."
+              value={"searchQuery"}
+              // onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                sx: {
+                  borderRadius: '28px',
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '28px',
+                  }
+                }
+              }}
+            />
+          </Grid>
           <Grid item xs={12} md={3}>
             <FormControl fullWidth>
               <InputLabel id="category-label">Select Category</InputLabel>
@@ -278,7 +299,20 @@ export default function DashboardView() {
               </Select>
             </FormControl>
           </Grid>
-          
+          <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+            <Button variant="outlined" color="success">
+              Event Calendar
+            </Button>
+            <Button variant="contained" color="primary">
+              Create Event
+            </Button>
+            <Button variant="outlined" color="primary">
+              Filter
+            </Button>
+            <Button variant="outlined" color="success">
+              My Events
+            </Button>
+          </Grid>
         </Grid>
       </Box>
 
