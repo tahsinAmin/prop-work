@@ -26,6 +26,9 @@ import { useRouter } from 'next/navigation';
 import { Icon } from '@iconify/react';
 import { Collapse } from '@mui/material';
 import { ExpandLess, ExpandMore, StarBorder } from '@mui/icons-material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
+import GroupIcon from '@mui/icons-material/Group';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -247,27 +250,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </ListItemButton>
             </ListItem>
             <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <Icon 
-            icon="ic:baseline-dashboard" 
-            width={24} 
-            height={24} 
-            color={activeRoute === '/dashboard' ? 'primary' : undefined} 
-          />
-        </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+              <ListItemIcon>
+                <Icon 
+                  icon="ic:baseline-dashboard" 
+                  width={24} 
+                  height={24} 
+                  color={activeRoute === '/dashboard' ? 'primary' : undefined} 
+                />
+              </ListItemIcon>
+                <ListItemText primary="Inbox" />
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="Starred" />
+            </ListItemButton>
+          </List>
+        </Collapse>
             <ListItem disablePadding>
               <ListItemButton 
                 component="a" 
@@ -283,6 +286,31 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   />
                 </ListItemIcon>
                 <ListItemText primary="Marketing Insights" />
+              </ListItemButton>
+            </ListItem>
+           
+            <ListItem>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <GroupIcon />
+                </ListItemIcon>
+                <ListItemText primary="Referral & Reward" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <SettingsPhoneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Support & Feedback" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
               </ListItemButton>
             </ListItem>
           </List>
