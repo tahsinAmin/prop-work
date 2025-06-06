@@ -231,6 +231,18 @@ export default function DashboardView() {
         </Typography>
       </Box>
       <Box sx={{ mb: 4 }}>
+        <Typography 
+          variant="body1" 
+          sx={{ 
+            color: '#0C53B7',
+            mt: 2,
+            mb: 3,
+            fontWeight: 500
+          }}
+        >
+          100,000+ Games releasing this year!
+        </Typography>
+
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={2}>
             <TextField
@@ -303,7 +315,7 @@ export default function DashboardView() {
             <Button variant="outlined" color="success">
               Event Calendar
             </Button>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" href="/create" >
               Create Event
             </Button>
             <Button variant="outlined" color="primary">
