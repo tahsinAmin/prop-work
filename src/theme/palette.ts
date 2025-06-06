@@ -120,7 +120,7 @@ export const palette: PaletteOptions = {
     mode: 'light',
     text: {
         primary: grey[800],
-        secondary: grey[600],
+        secondary: '#666666',
         disabled: grey[500],
     },
     background: {
