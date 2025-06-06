@@ -1,4 +1,4 @@
-import { Barlow, Public_Sans } from 'next/font/google';
+import { Barlow, Poppins } from 'next/font/google';
 
 // ----------------------------------------------------------------------
 
@@ -31,21 +31,21 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const primaryFont = Public_Sans({
-  weight: ['400', '500', '600', '700', '800', '900'],
+export const primaryFont = Poppins({
+  weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
+  variable: '--font-poppins',
 });
 
 export const secondaryFont = Barlow({
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700', '800'],
   subsets: ['latin'],
   display: 'swap',
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
+  variable: '--font-barlow',
 });
-
-// ----------------------------------------------------------------------
 
 // LEARN MORE
 // https://nextjs.org/docs/basic-features/font-optimization#google-fonts
@@ -58,14 +58,14 @@ export const typography = {
   fontWeightSemiBold: 600,
   fontWeightBold: 700,
   h1: {
-    fontWeight: 800,
-    lineHeight: 80 / 64,
+    fontWeight: 700,
+    lineHeight: 1.2,
     fontSize: pxToRem(40),
     ...responsiveFontSizes({ sm: 52, md: 58, lg: 64 }),
   },
   h2: {
-    fontWeight: 800,
-    lineHeight: 64 / 48,
+    fontWeight: 700,
+    lineHeight: 1.2,
     fontSize: pxToRem(32),
     ...responsiveFontSizes({ sm: 40, md: 44, lg: 48 }),
   },
@@ -82,25 +82,25 @@ export const typography = {
     ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
   },
   h5: {
-    fontWeight: 700,
+    fontWeight: 600,
     lineHeight: 1.5,
     fontSize: pxToRem(18),
     ...responsiveFontSizes({ sm: 19, md: 20, lg: 20 }),
   },
   h6: {
-    fontWeight: 700,
-    lineHeight: 28 / 18,
+    fontWeight: 600,
+    lineHeight: 1.5,
     fontSize: pxToRem(17),
     ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
   },
   subtitle1: {
-    fontWeight: 600,
+    fontWeight: 500,
     lineHeight: 1.5,
     fontSize: pxToRem(16),
   },
   subtitle2: {
     fontWeight: 600,
-    lineHeight: 22 / 14,
+    lineHeight: 1.43,
     fontSize: pxToRem(14),
   },
   body1: {
@@ -108,7 +108,7 @@ export const typography = {
     fontSize: pxToRem(16),
   },
   body2: {
-    lineHeight: 22 / 14,
+    lineHeight: 1.5,
     fontSize: pxToRem(14),
   },
   caption: {
@@ -116,15 +116,15 @@ export const typography = {
     fontSize: pxToRem(12),
   },
   overline: {
-    fontWeight: 700,
+    fontWeight: 600,
     lineHeight: 1.5,
     fontSize: pxToRem(12),
     textTransform: 'uppercase',
   },
   button: {
-    fontWeight: 700,
-    lineHeight: 24 / 14,
+    fontWeight: 600,
+    lineHeight: 1.71,
     fontSize: pxToRem(14),
-    textTransform: 'unset',
+    textTransform: 'none',
   },
 } as const;
