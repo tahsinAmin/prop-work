@@ -1,0 +1,71 @@
+.swiper {
+  width: 100%;
+  height: 100%;
+  --top-position: -478px;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #444;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper {
+  width: 100%;
+  height: 500px;
+  margin: 20px auto;
+}
+
+
+
+.swiper-slide {
+  width: 402.333px !important; 
+  margin-right: 30px !important;
+}
+
+/* Styles for the swiper buttons to navigate slides.
+   Both .swiper-button-next and .swiper-button-prev have a relative position,
+   a height and width of 62px, a blue background color, rounded corners,
+   and white text color for better visibility */
+.swiper-button-next, .swiper-button-prev {
+  position: relative;
+    height: 62px;
+    width: 62px;
+    background-color: #007aff;
+    border-radius: 51px;
+    color: #ffffff;  
+}
+
+.swiper-button-prev.swiper-button-disabled {
+  background-color: #CCCCCC;
+  color: #ffffff;  
+}
+.swiper-button-next {
+  right: -1233px;
+  top: calc(var(--top-position) - 40px);
+}
+
+.swiper-button-prev {
+  left: 1149px;
+  top: calc(var(--top-position));
+}
+
+
+.swiper-button-prev:after, .swiper-button-next:after {
+  font-size: 13px;
+  font-weight: bolder;
+}
+

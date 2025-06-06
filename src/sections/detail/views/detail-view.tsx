@@ -6,32 +6,10 @@ import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import LinkIcon from '@mui/icons-material/Link';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(4),
-  borderRadius: theme.shape.borderRadius * 2,
-  boxShadow: theme.shadows[2],
-  marginBottom: theme.spacing(4),
-}));
-
-interface DetailSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
-
-const DetailSection = ({ title, children }: DetailSectionProps) => (
-  <Box sx={{ mb: 4 }}>
-    <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: 'text.primary' }}>
-      {title}
-    </Typography>
-    <Divider sx={{ mb: 2 }} />
-    {children}
-  </Box>
-);
+import Advisor from '@/components/dashboard/advisor';
+import SimilarGames from '@/components/dashboard/similar-games';
 
 export default function DetailView() {
   const { id } = useParams();
@@ -56,36 +34,33 @@ export default function DetailView() {
     prizes: '1st Place: $1000\n2nd Place: $500\n3rd Place: $250',
     terms: 'By participating, you agree to our terms and conditions.',
     coverImage: '/game-1.jpg',
-    contactPerson: {
-      name: 'La Dolce Vita',
-      company: 'Easy Games Ltd.',
-      email: 'eamiladdress@gmail.com',
-      phone: '099999999',
-      image: '/game-1.jpg'
-    }
+    
   };
 
   return (
     <Box>
       {/* Banner Image - Full Width */}
       <Box sx={{ 
-        position: 'relative', 
+        // position: 'relative', 
         width: '100%',
         height: '419px',
         borderRadius: 2,
-        overflow: 'hidden',
-        mb: 4
+        // overflow: 'hidden',
+        mb: 4, 
+        pr: '140px'
       }}>
         <Image
           src={gameData.coverImage}
           alt={gameData.title}
-          fill
-          style={{ objectFit: 'cover' }}
+          width={1300}
+          height={391}
+          // fill
+          // style={{ objectFit: 'cover' }}
         />
       </Box>
 
       {/* Game Title and Status */}
-      <Box sx={{ mb: 4, textAlign: 'center' }}>
+      <Box sx={{ mb: 4, textAlign: 'center', pr: '140px' }}>
         <Typography variant="h3" component="h1" gutterBottom>
           {gameData.title}
         </Typography>
@@ -120,7 +95,7 @@ export default function DetailView() {
       </Box>
 
       {/* Video and Map Section */}
-      <Grid container spacing={4} sx={{ mb: 4 }}>
+      <Grid container spacing={4} sx={{ mb: 4, pr: '140px' }}>
         {/* Video Section */}
         <Grid item xs={12} md={6}>
           <Typography variant="h6" gutterBottom>Game Videos</Typography>
@@ -191,7 +166,7 @@ export default function DetailView() {
       
 
       {/* Meeting Link and Register Button */}
-      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 4, pr: '140px' }}>
         <Box sx={{ flex: 1 }}>
           <Typography variant="subtitle2" gutterBottom>Game Meeting Link</Typography>
           <Box sx={{ 
@@ -246,121 +221,9 @@ export default function DetailView() {
           Register Now
         </Button>
       </Box>
-
+      <SimilarGames />
       {/* Meet Our Advisor Section */}
-      <Box sx={{ mb: 6, mt: 8, position: 'relative' }}>
-        <Box sx={{mb: 3 }}>
-          <Typography variant="h4" component="h2" sx={{ 
-            fontWeight: 600, 
-            fontSize: '32px',
-            mb: 0,
-            position: 'relative',
-            display: 'inline-block'
-          }}>
-            Meet your Contact Person & Details
-          </Typography>
-        </Box>
-
-        <Grid container alignItems="center">
-          <Grid item xs={12} md={5}>
-
-            <Box sx={{           }}>
-              <Image 
-                src="/curly.svg" 
-                alt="Curly underline" 
-                width={416}
-                height={268}
-              />
-            </Box>
-              
-          </Grid>
-          <Grid item xs={12} md={7}></Grid>
-        </Grid>
-        
-
-        <Grid container spacing={4} alignItems="center">
-        <Grid item xs={12} md={5}>
-            <Box sx={{ pl: { xs: 0, md: 4 } }}>
-              <Typography sx={{ 
-                fontWeight: 500,
-                fontSize: '48px',
-                mb: 2,
-                color: 'primary.main'
-              }}>
-                {gameData.contactPerson.name}
-              </Typography>
-              <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 400, fontSize: '24px', mb: 3 }}>
-              Your Game Expert
-              </Typography>
-
-              <Box sx={{ fontWeight: 400, mb: 0.5 }}>
-                <Typography component="span" sx={{ color: '#666666', fontSize: '24px' }}>
-                  Phone:{' '}
-                </Typography>
-                <Typography component="span" sx={{ color: '#000000', fontSize: '24px' }}>
-                  {gameData.contactPerson.phone}
-                </Typography>
-              </Box>
-
-              <Box sx={{ fontWeight: 400, mb: 0.5 }}>
-                <Typography component="span" sx={{ color: '#666666', fontSize: '24px' }}>
-                  Email:{' '}
-                </Typography>
-                <Typography component="span" sx={{ color: '#000000', fontSize: '24px' }}>
-                  {gameData.contactPerson.email}
-                </Typography>
-              </Box>
-
-              <Box sx={{ fontWeight: 400, mb: 3 }}>
-                <Typography component="span" sx={{ color: '#666666', fontSize: '24px' }}>
-                  Company:{' '}
-                </Typography>
-                <Typography component="span" sx={{ color: '#000000', fontSize: '24px' }}>
-                  {gameData.contactPerson.company}
-                </Typography>
-              </Box>
-              
-              <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-                <Button 
-                  variant="contained" 
-                  color="primary"
-                  startIcon={<WhatsAppIcon />}
-                  sx={{ textTransform: 'none', width: '218px', height: '60px' }}
-                >
-                  Whatsapp
-                </Button>
-                <Button 
-                  variant="outlined" 
-                  color="primary"
-                  startIcon={<PhoneIcon />}
-                  sx={{ textTransform: 'none', width: '218px', height: '60px' }}
-                >
-                  Call
-                </Button>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={7}>
-            <Box sx={{ 
-              position: 'relative',
-              width: '100%',
-              height: '441px',
-              borderRadius: 2,
-              overflow: 'hidden',
-              // clipPath: 'polygon(25% 0, 100% 0, 75% 100%, 0% 100%)',
-              // border: '2px solid blue'
-            }}>
-              <Image
-                src="/advisor.jpg"
-                alt="Advisor"
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </Box>
-          </Grid>
-          
-        </Grid>
-      </Box>
+      <Advisor/>
     </Box>
   );
 }
