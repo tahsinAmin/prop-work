@@ -10,13 +10,9 @@ import {
   Button,
   TextField,
   Typography,
-  Paper,
   Grid,
-  FormControl,
   MenuItem,
   InputAdornment,
-  IconButton,
-  FormHelperText,
   styled
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -50,6 +46,7 @@ const formSchema = z.object({
   startTime: z.string().min(1, 'Start time is required'),
   endTime: z.string().min(1, 'End time is required'),
   gameType: z.string().min(1, 'Game type is required'),
+  creatingAs: z.string().min(1, 'Creating as is required'),
   gameLocation: z.string().min(1, 'Game location is required'),
   gameLocationLink: z.string().url('Please enter a valid URL'),
   gameVideoLink: z.string().url('Please enter a valid YouTube URL'),
@@ -99,9 +96,9 @@ export default function CreateView() {
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const [contactImage, setContactImage] = useState<File | null>(null);
-const [contactPreviewUrl, setContactPreviewUrl] = useState<string | null>(null);
-const [isContactDragging, setIsContactDragging] = useState(false);
-const [contactUploadError, setContactUploadError] = useState<string | null>(null);
+  const [contactPreviewUrl, setContactPreviewUrl] = useState<string | null>(null);
+  const [isContactDragging, setIsContactDragging] = useState(false);
+  const [contactUploadError, setContactUploadError] = useState<string | null>(null);
 
   const {
     control,
@@ -122,6 +119,7 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
       startTime: format(new Date(), TIME_FORMAT),
       endTime: format(new Date(new Date().setHours(new Date().getHours() + 1)), TIME_FORMAT),
       gameType: '',
+      creatingAs: '',
       gameLocation: '',
       gameLocationLink: '',
       gameVideoLink: '',
@@ -155,21 +153,21 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
       return;
     }
 
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      setUploadError('File size should be less than 10MB');
+    // Validate file size (max 3MB)
+    if (file.size > 3 * 1024 * 1024) {
+      setUploadError('File size should be less than 3MB');
       return;
     }
 
-    // Validate minimum size (3MB)
-    if (file.size < 3 * 1024 * 1024) {
-      setUploadError('File size should be at least 3MB');
+    // Validate minimum size (1MB)
+    if (file.size < 1 * 1024 * 1024) {
+      setUploadError('File size should be at least 1MB');
       return;
     }
 
     setCoverImage(file);
     setUploadError(null);
-    
+
     // Create preview URL
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -194,7 +192,7 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-    
+
     const file = e.dataTransfer.files?.[0];
     if (file) {
       processFile(file);
@@ -212,7 +210,7 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
       processContactFile(file);
     }
   };
-  
+
   const processContactFile = (file: File) => {
     if (!file.type.startsWith('image/')) {
       setContactUploadError('Please upload an image file');
@@ -226,41 +224,41 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
       setContactUploadError('File size should be at least 3MB');
       return;
     }
-  
+
     setContactImage(file);
     setContactUploadError(null);
     setValue('contactPersonImage', file);
-    
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setContactPreviewUrl(reader.result as string);
     };
     reader.readAsDataURL(file);
   };
-  
+
   const handleContactDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsContactDragging(true);
   };
-  
+
   const handleContactDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsContactDragging(false);
   };
-  
+
   const handleContactDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsContactDragging(false);
-    
+
     const file = e.dataTransfer.files?.[0];
     if (file) {
       processContactFile(file);
     }
   };
-  
+
   const handleContactClick = () => {
     const fileInput = document.getElementById('contact-file-upload') as HTMLInputElement;
     fileInput?.click();
@@ -276,94 +274,98 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
   };
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Create Game
-      </Typography>
-      
-      <Typography variant="subtitle1" gutterBottom>
-        You are creating game as Game Developer
-      </Typography>
-
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" gutterBottom>Game Cover Image</Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Upload photos that describe your game visually
+    <Box sx={{ p: 3 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Typography component={'span'} sx={{ fontSize: '14px', color: '#F5BE30' }}>
+          You are creating game as
         </Typography>
-        <Box
-          onClick={handleClick}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          sx={{
-            border: '2px dashed',
-            borderColor: isDragging ? 'primary.main' : 'divider',
-            borderRadius: 1,
-            p: 4,
-            textAlign: 'center',
-            cursor: 'pointer',
-            backgroundColor: isDragging ? 'action.hover' : 'background.paper',
-            transition: 'all 0.2s ease-in-out',
-            '&:hover': {
-              borderColor: 'primary.main',
-              backgroundColor: 'action.hover',
-            },
-          }}
-        >
-          {previewUrl ? (
-            <Box
-              component="img"
-              src={previewUrl}
-              alt="Preview"
-              sx={{
-                maxWidth: '100%',
-                maxHeight: '200px',
-                mb: 2,
-                borderRadius: 1,
-              }}
-            />
-          ) : (
-            <CloudUploadIcon sx={{ fontSize: 40, mb: 1, color: 'text.secondary' }} />
-          )}
-          
-          {!previewUrl ? (
-            <>
-              <Typography>Drag image or <Box component="span" sx={{ color: 'primary.main' }}>Browse</Box></Typography>
-              <Typography variant="caption" color="text.secondary" display="block" mt={1}>
-                Max. file size: 10MB | Min. file size: 3MB
-              </Typography>
-            </>
-          ) : (
-            <Typography color="primary" sx={{ mt: 1 }}>Click to change image</Typography>
-          )}
-          
-          <VisuallyHiddenInput 
-            id="file-upload"
-            type="file" 
-            accept="image/*"
-            onChange={handleImageUpload}
-          />
-          {uploadError && (
-            <Typography color="error" variant="caption" display="block" mt={1}>
-              {uploadError}
-            </Typography>
-          )}
-        </Box>
-      </Paper>
+        <Box component={'span'}>
+          <Controller
+            name="creatingAs"
 
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>Game Information</Typography>
-        
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Type here"
+                error={!!errors.creatingAs}
+                helperText={errors.creatingAs?.message}
+                sx={{
+                  width: '366px',
+                  '& .MuiInputLabel-root': {
+                    color: 'primary.main'
+                  }
+                }}
+              />
+            )}
+          />
+        </Box>
+      </Box>
+
+      <Typography variant="subtitle1" sx={{ color: 'primary.main', fontSize: '24px', lineHeight: 1, mt: 3 }}>Game Cover Image</Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        Upload photos that describe your game visually
+      </Typography>
+
+      <Box
+        onClick={handleClick}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        sx={{
+          border: '2px dashed',
+          borderColor: isDragging ? 'primary.main' : 'divider',
+          borderRadius: 1,
+          p: '40.5px',
+          mt: 2,
+          textAlign: 'center',
+          cursor: 'pointer',
+          backgroundColor: isDragging ? 'action.hover' : 'background.paper',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            borderColor: 'primary.main',
+            backgroundColor: 'action.hover',
+          },
+        }}
+      >
+        {!previewUrl ? (
+          <>
+            <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>Drag image or <Box component="span" sx={{ color: 'primary.main' }}>Browse</Box></Typography>
+            <Typography variant="caption" color="text.secondary" display="block" mt={1}>
+              Max. file size: 3MB
+            </Typography>
+          </>
+        ) : (
+          <Typography color="primary" sx={{ mt: 1 }}>Click to change image</Typography>
+        )}
+
+        <VisuallyHiddenInput
+          id="file-upload"
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
+        {uploadError && (
+          <Typography color="error" variant="caption" display="block" mt={1}>
+            {uploadError}
+          </Typography>
+        )}
+      </Box>
+
+      <Box>
+        <Typography variant="subtitle1" sx={{ color: 'primary.main', fontSize: '24px', lineHeight: 1, mt: 3 }}>Game Information</Typography>
+        <Box sx={{ width: '317px', height: '1px', backgroundColor: 'primary.main', my: 1 }} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Name * </Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="gameName"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Game Name *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.gameName}
                     helperText={errors.gameName?.message}
@@ -372,14 +374,15 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Title * </Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="gameTitle"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Game Title *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.gameTitle}
                     helperText={errors.gameTitle?.message}
@@ -388,17 +391,16 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Short Description * </Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="shortDescription"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Game Short Description *"
+                    label="Type here"
                     fullWidth
-                    multiline
-                    rows={3}
                     error={!!errors.shortDescription}
                     helperText={errors.shortDescription?.message}
                   />
@@ -406,56 +408,59 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Controller
-                name="category"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    select
-                    label="Category *"
-                    fullWidth
-                    error={!!errors.category}
-                    helperText={errors.category?.message}
-                  >
-                    <MenuItem value="">Choose here</MenuItem>
-                    {categories.map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
-              />
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Category * </Grid>
+            <Grid item xs={12} sm={9}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name="category"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        select
+                        label="Category *"
+                        fullWidth
+                        error={!!errors.category}
+                        helperText={errors.category?.message}
+                      >
+                        <MenuItem value="">Choose here</MenuItem>
+                        {categories.map((option) => (
+                          <MenuItem key={option} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name="subCategory"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        select
+                        label="Sub category"
+                        fullWidth
+                        error={!!errors.subCategory}
+                        helperText={errors.subCategory?.message}
+                      >
+                        <MenuItem value="">Choose here</MenuItem>
+                        {categories.map((option) => (
+                          <MenuItem key={option} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Controller
-                name="subCategory"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    select
-                    label="Sub category"
-                    fullWidth
-                    error={!!errors.subCategory}
-                    helperText={errors.subCategory?.message}
-                  >
-                    <MenuItem value="">Choose here</MenuItem>
-                    {categories.map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle2" gutterBottom>Event Date *</Typography>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Date * </Grid>
+            <Grid item xs={12} sm={9}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Controller
@@ -510,8 +515,8 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               </Grid>
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle2" gutterBottom>Game Time *</Typography>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Time *</Grid>
+            <Grid item xs={12} sm={9}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Controller
@@ -566,7 +571,8 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               </Grid>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Type *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="gameType"
                 control={control}
@@ -590,14 +596,15 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Enter Game location *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="gameLocation"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Enter Game location *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.gameLocation}
                     helperText={errors.gameLocation?.message}
@@ -606,14 +613,15 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Location Link (YouTube) *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="gameLocationLink"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Game location Link *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.gameLocationLink}
                     helperText={errors.gameLocationLink?.message}
@@ -622,14 +630,15 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Video Link *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="gameVideoLink"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Game Video link (YouTube) *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.gameVideoLink}
                     helperText={errors.gameVideoLink?.message}
@@ -638,14 +647,15 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Meeting Link *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="meetingLink"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Game Meeting Link *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.meetingLink}
                     helperText={errors.meetingLink?.message}
@@ -654,14 +664,15 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Registration Link *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="registrationLink"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Registration Link *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.registrationLink}
                     helperText={errors.registrationLink?.message}
@@ -670,7 +681,8 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Country *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="country"
                 control={control}
@@ -678,7 +690,7 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
                   <TextField
                     {...field}
                     select
-                    label="Country *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.country}
                     helperText={errors.country?.message}
@@ -694,7 +706,8 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>District *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="district"
                 control={control}
@@ -702,7 +715,7 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
                   <TextField
                     {...field}
                     select
-                    label="District *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.district}
                     helperText={errors.district?.message}
@@ -718,7 +731,8 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>City *</Grid>
+            <Grid item xs={12} sm={9}>
               <Controller
                 name="city"
                 control={control}
@@ -726,7 +740,7 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
                   <TextField
                     {...field}
                     select
-                    label="City *"
+                    label="Type here"
                     fullWidth
                     error={!!errors.city}
                     helperText={errors.city?.message}
@@ -741,80 +755,80 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
                 )}
               />
             </Grid>
-                          {/* Game Details Section */}
-                          <Grid item xs={12} sx={{ mt: 3 }}>
-                <Typography variant="h6" gutterBottom>Game Details</Typography>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <Controller
-                      name="gameDescription"
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Game Description *"
-                          fullWidth
-                          multiline
-                          rows={4}
-                          error={!!errors.gameDescription}
-                          helperText={errors.gameDescription?.message}
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Controller
-                      name="gameRules"
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Game Rules *"
-                          fullWidth
-                          multiline
-                          rows={4}
-                          error={!!errors.gameRules}
-                          helperText={errors.gameRules?.message}
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Controller
-                      name="gamePrizes"
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Game Prizes *"
-                          fullWidth
-                          multiline
-                          rows={3}
-                          error={!!errors.gamePrizes}
-                          helperText={errors.gamePrizes?.message}
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Controller
-                      name="gameTerms"
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Game Terms & Conditions *"
-                          fullWidth
-                          multiline
-                          rows={3}
-                          error={!!errors.gameTerms}
-                          helperText={errors.gameTerms?.message}
-                        />
-                      )}
-                    />
-                  </Grid>
+            {/* Game Details Section */}
+            <Grid item xs={12} sx={{ mt: 3 }}>
+              <Typography variant="h6" gutterBottom>Game Details</Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Controller
+                    name="gameDescription"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Type here"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        error={!!errors.gameDescription}
+                        helperText={errors.gameDescription?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="gameRules"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Game Rules *"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        error={!!errors.gameRules}
+                        helperText={errors.gameRules?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="gamePrizes"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Game Prizes *"
+                        fullWidth
+                        multiline
+                        rows={3}
+                        error={!!errors.gamePrizes}
+                        helperText={errors.gamePrizes?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="gameTerms"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Game Terms & Conditions *"
+                        fullWidth
+                        multiline
+                        rows={3}
+                        error={!!errors.gameTerms}
+                        helperText={errors.gameTerms?.message}
+                      />
+                    )}
+                  />
                 </Grid>
               </Grid>
+            </Grid>
             {/* Contact Person Details Section */}
             <Grid item xs={12} sx={{ mt: 3 }}>
               <Typography variant="h6" gutterBottom>Contact Person Details</Typography>
@@ -872,80 +886,80 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
 
 
 
-  <Typography variant="h6" gutterBottom>Contact Person Image</Typography>
-  <Typography variant="body2" color="text.secondary" gutterBottom>
-    Upload a clear photo of the contact person
-  </Typography>
-  <Box
-    onClick={handleContactClick}
-    onDragOver={handleContactDragOver}
-    onDragLeave={handleContactDragLeave}
-    onDrop={handleContactDrop}
-    sx={{
-      border: '2px dashed',
-      borderColor: isContactDragging ? 'primary.main' : 'divider',
-      borderRadius: 1,
-      p: 4,
-      textAlign: 'center',
-      cursor: 'pointer',
-      backgroundColor: isContactDragging ? 'action.hover' : 'background.paper',
-      transition: 'all 0.2s ease-in-out',
-      '&:hover': {
-        borderColor: 'primary.main',
-        backgroundColor: 'action.hover',
-      },
-    }}
-  >
-    {contactPreviewUrl ? (
-      <Box
-        component="img"
-        src={contactPreviewUrl}
-        alt="Contact Preview"
-        sx={{
-          maxWidth: '100%',
-          maxHeight: '200px',
-          mb: 2,
-          borderRadius: 1,
-        }}
-      />
-    ) : (
-      <CloudUploadIcon sx={{ fontSize: 40, mb: 1, color: 'text.secondary' }} />
-    )}
-    
-    {!contactPreviewUrl ? (
-      <>
-        <Typography>Drag image or <Box component="span" sx={{ color: 'primary.main' }}>Browse</Box></Typography>
-        <Typography variant="caption" color="text.secondary" display="block" mt={1}>
-          Max. file size: 10MB | Min. file size: 3MB
-        </Typography>
-      </>
-    ) : (
-      <Typography color="primary" sx={{ mt: 1 }}>Click to change image</Typography>
-    )}
-    
-    <VisuallyHiddenInput 
-      id="contact-file-upload"
-      type="file" 
-      accept="image/*"
-      onChange={handleContactImageUpload}
-    />
-    {contactUploadError && (
-      <Typography color="error" variant="caption" display="block" mt={1}>
-        {contactUploadError}
-      </Typography>
-    )}
-    {errors.contactPersonImage && (
-      <Typography color="error" variant="caption" display="block" mt={1}>
-        {errors.contactPersonImage.message as string}
-      </Typography>
-    )}
-  </Box>
-</Grid>
+              <Typography variant="h6" gutterBottom>Contact Person Image</Typography>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Upload a clear photo of the contact person
+              </Typography>
+              <Box
+                onClick={handleContactClick}
+                onDragOver={handleContactDragOver}
+                onDragLeave={handleContactDragLeave}
+                onDrop={handleContactDrop}
+                sx={{
+                  border: '2px dashed',
+                  borderColor: isContactDragging ? 'primary.main' : 'divider',
+                  borderRadius: 1,
+                  p: 4,
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  backgroundColor: isContactDragging ? 'action.hover' : 'background.paper',
+                  transition: 'all 0.2s ease-in-out',
+                  '&:hover': {
+                    borderColor: 'primary.main',
+                    backgroundColor: 'action.hover',
+                  },
+                }}
+              >
+                {contactPreviewUrl ? (
+                  <Box
+                    component="img"
+                    src={contactPreviewUrl}
+                    alt="Contact Preview"
+                    sx={{
+                      maxWidth: '100%',
+                      maxHeight: '200px',
+                      mb: 2,
+                      borderRadius: 1,
+                    }}
+                  />
+                ) : (
+                  <CloudUploadIcon sx={{ fontSize: 40, mb: 1, color: 'text.secondary' }} />
+                )}
+
+                {!contactPreviewUrl ? (
+                  <>
+                    <Typography>Drag image or <Box component="span" sx={{ color: 'primary.main' }}>Browse</Box></Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" mt={1}>
+                      Max. file size: 10MB | Min. file size: 3MB
+                    </Typography>
+                  </>
+                ) : (
+                  <Typography color="primary" sx={{ mt: 1 }}>Click to change image</Typography>
+                )}
+
+                <VisuallyHiddenInput
+                  id="contact-file-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleContactImageUpload}
+                />
+                {contactUploadError && (
+                  <Typography color="error" variant="caption" display="block" mt={1}>
+                    {contactUploadError}
+                  </Typography>
+                )}
+                {errors.contactPersonImage && (
+                  <Typography color="error" variant="caption" display="block" mt={1}>
+                    {errors.contactPersonImage.message as string}
+                  </Typography>
+                )}
+              </Box>
+            </Grid>
             <Grid item xs={12} sx={{ mt: 2 }}>
-              <Button 
-                type="submit" 
-                variant="contained" 
-                color="primary" 
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
                 size="large"
                 fullWidth
                 disabled={isSubmitting}
@@ -955,7 +969,7 @@ const [contactUploadError, setContactUploadError] = useState<string | null>(null
             </Grid>
           </Grid>
         </form>
-      </Paper>
+      </Box>
     </Box>
   );
 }
