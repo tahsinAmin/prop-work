@@ -1,15 +1,12 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { Box, Typography, Paper, Grid, Button, Divider, Chip, Avatar, Link as MuiLink } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Typography, Button, Stack, Grid } from '@mui/material';
 import Image from 'next/image';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import LinkIcon from '@mui/icons-material/Link';
-import Advisor from '@/components/dashboard/advisor';
+import ShareIcon from '@mui/icons-material/Share';
 import SimilarGames from '@/components/dashboard/similar-games';
+import Advisor from '@/components/dashboard/advisor';
 
 export default function DetailView() {
   const { id } = useParams();
@@ -17,36 +14,32 @@ export default function DetailView() {
   // Mock data - replace with actual data fetching
   const gameData = {
     id,
-    title: 'Epic Battle Royale',
-    category: 'Action',
-    subCategory: 'Battle Royale',
-    status: 'Upcoming',
+    title: 'Ajmon Brokers Event',
+    category: 'REAL ESTATE EVENTS',
+    subCategory: 'Property Showcases & Launches',
+    status: 'approved',
     gameType: 'Online',
-    startDate: '2023-12-15',
-    endDate: '2023-12-17',
-    startTime: '14:00',
-    endTime: '18:00',
+    startDate: '2025-03-21',
+    endDate: '2025-03-21',
+    startTime: '10:00',
+    endTime: '19:00',
     location: 'Online',
     locationLink: 'https://example.com/join-game',
     videoLink: 'https://youtube.com/embed/example',
-    description: 'Join the ultimate battle royale experience with players from around the world. Last player standing wins!',
-    rules: '1. No cheating\n2. Respect other players\n3. Have fun!',
-    prizes: '1st Place: $1000\n2nd Place: $500\n3rd Place: $250',
-    terms: 'By participating, you agree to our terms and conditions.',
+    description: 'A once in a generation opportunity to secure a luxury custom built home in what will be one of Sydney’s great waterfront estates with a large private marina pen in the heart of Pittwater',
     coverImage: '/game-1.jpg',
-    
+    admin_comment: 'RAK Properties',
+    city: 'Al Ain',
+    country: 'Dubai'
   };
 
   return (
     <Box>
       {/* Banner Image - Full Width */}
-      <Box sx={{ 
-        // position: 'relative', 
+      <Box sx={{
         width: '100%',
         height: '419px',
         borderRadius: 2,
-        // overflow: 'hidden',
-        mb: 4, 
         pr: '140px'
       }}>
         <Image
@@ -54,53 +47,84 @@ export default function DetailView() {
           alt={gameData.title}
           width={1300}
           height={391}
-          // fill
-          // style={{ objectFit: 'cover' }}
         />
       </Box>
 
-      {/* Game Title and Status */}
-      <Box sx={{ mb: 4, textAlign: 'center', pr: '140px' }}>
-        <Typography variant="h3" component="h1" gutterBottom>
-          {gameData.title}
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mb: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <AccessTimeIcon color="action" sx={{ mr: 1 }} />
-            <Typography>
-              {gameData.startTime} - {gameData.endTime} at {new Date(gameData.startDate).toLocaleDateString()}
+      <Stack
+        spacing={{ xs: 1, sm: 2 }}
+        direction="row"
+        useFlexGap
+        sx={{ flexWrap: 'wrap', justifyContent: 'space-between', pr: '140px' }}
+      >
+        <Box>
+          <Box sx={{ mb: 1 }}>
+            <Typography sx={{ fontWeight: '500', fontSize: '32px' }}>
+              {gameData.title}
             </Typography>
-          </Box>
-          <Typography>•</Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <LocationOnIcon color="action" sx={{ mr: 1 }} />
-            <Typography>{gameData.location}</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16, mb: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography>
+                  {new Date(`1970-01-01T${gameData.startTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })} - {new Date(`1970-01-01T${gameData.endTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })} at {new Date(gameData.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography>Powered by {gameData.admin_comment}</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ mb: 0 }}>
+              <Typography sx={{ fontWeight: '600', fontSize: '20px' }}>
+                {gameData.category}
+              </Typography>
+              <Typography sx={{ fontWeight: '400', fontSize: '18px', color: 'primary.main' }}>
+                {gameData.subCategory}
+              </Typography>
+            </Box>
           </Box>
         </Box>
-        <Chip 
-          label={gameData.category} 
-          color="primary"
-          variant="outlined"
-          sx={{ mr: 1, mb: 2 }}
-        />
-        <Chip 
-          label={gameData.subCategory}
-          color="secondary"
-          variant="outlined"
-          sx={{ mb: 2 }}
-        />
-        <Typography sx={{ maxWidth: 800, mx: 'auto', mb: 4 }}>
-          {gameData.description}
-        </Typography>
-      </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', gap: 1 }}>
+          <Typography sx={{ fontSize: '24px', fontWeight: '500', display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box component="span" sx={{ fontSize: '20px', color: 'primary.main' }}>{gameData.city}</Box>
+            <Box>{gameData.country}</Box>
+            <Image
+              src="/send.jpg"
+              alt="send"
+              width={20}
+              height={20}
+            />
+          </Typography>
+          <Typography>
+            Another District or anything name need
+          </Typography>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            endIcon={<ShareIcon />}
+            sx={{ backgroundColor: '#F4F8EE', textTransform: 'none', width: '218px', height: '60px' }}
+          >
+            Share Game
+          </Button>
+        </Box>
+      </Stack>
+      <Typography sx={{ mb: 5, pr: '140px' }}>
+        {gameData.description}
+      </Typography>
 
       {/* Video and Map Section */}
       <Grid container spacing={4} sx={{ mb: 4, pr: '140px' }}>
         {/* Video Section */}
         <Grid item xs={12} md={6}>
-          <Typography variant="h6" gutterBottom>Game Videos</Typography>
-          <Box sx={{ 
-            position: 'relative', 
+
+          <Box sx={{ mb: 1 }}>
+            <Typography sx={{ fontWeight: '500', fontSize: '32px', lineHeight: 1 }}>
+              Event Videos
+            </Typography>
+            <Typography sx={{ fontWeight: '400', fontSize: '16px', lineHeight: 1 }}>
+              For Better Understand
+            </Typography>
+          </Box>
+          <Box sx={{
+            position: 'relative',
             width: '100%',
             height: 300,
             borderRadius: 2,
@@ -146,8 +170,15 @@ export default function DetailView() {
 
         {/* Map Section */}
         <Grid item xs={12} md={6}>
-          <Typography variant="h6" gutterBottom>Game Location</Typography>
-          <Box sx={{ 
+          <Box sx={{ mb: 1 }}>
+            <Typography sx={{ fontWeight: '500', fontSize: '32px', lineHeight: 1 }}>
+              Game Location
+            </Typography>
+            <Typography sx={{ fontWeight: '400', fontSize: '16px', lineHeight: 1 }}>
+              Find our place easly
+            </Typography>
+          </Box>
+          <Box sx={{
             width: '100%',
             height: 300,
             borderRadius: 2,
@@ -163,64 +194,58 @@ export default function DetailView() {
           </Box>
         </Grid>
       </Grid>
-      
+
 
       {/* Meeting Link and Register Button */}
-      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 4, pr: '140px' }}>
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="subtitle2" gutterBottom>Game Meeting Link</Typography>
-          <Box sx={{ 
+      <Grid container spacing={4} sx={{ pr: '140px' }}>
+        <Grid item xs={12} md={3}>
+          <Typography variant="subtitle2" sx={{ fontSize: '20px' }}>Game</Typography>
+          <Typography variant="subtitle1" sx={{ color: 'primary.main', fontSize: '32px', lineHeight: 1 }}>Meeting Link</Typography>
+        </Grid>
+        <Grid item xs={12} md={5}>
+          <Box sx={{
             display: 'flex',
             border: '1px solid #e0e0e0',
             borderRadius: 1,
             overflow: 'hidden',
-            height: 56
+            height: '65px',
+            width: '100%',
+            backgroundColor: 'background.paper'
           }}>
-            <Box sx={{ 
-              px: 2, 
-              display: 'flex', 
-              alignItems: 'center',
-              bgcolor: '#f5f5f5',
-              borderRight: '1px solid #e0e0e0'
-            }}>
-              <LinkIcon />
-            </Box>
-            <Box sx={{ 
-              flex: 1, 
-              display: 'flex', 
-              alignItems: 'center',
+            <Box sx={{
               px: 2,
+              display: 'flex',
+              alignItems: 'center',
+              flex: 1,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              backgroundColor: 'background.paper',
+              color: 'primary.main'
             }}>
-              <Typography noWrap>meet.google.com/abc/defg/hij</Typography>
+              meet.google.com/abc/defg/hij
             </Box>
-            <Button 
-              variant="text" 
-              color="primary"
-              onClick={() => {
-                navigator.clipboard.writeText('meet.google.com/abc/defg/hij');
-                // Add toast/snackbar here
-              }}
-            >
-              Copy
-            </Button>
           </Box>
-        </Box>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          size="large"
-          sx={{ 
-            minWidth: 200,
-            height: 56,
-            alignSelf: { xs: 'stretch', sm: 'flex-end' }
-          }}
-        >
-          Register Now
-        </Button>
-      </Box>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Button
+            variant="contained"
+            color="primary"
+
+            sx={{
+              px: 4,
+              borderRadius: 1,
+              textTransform: 'none',
+              fontWeight: 600,
+              width: '100%',
+              height: '60px'
+              // mt: { xs: 2, sm: '28px' }
+            }}
+          >
+            Register Now
+          </Button>
+        </Grid>
+      </Grid>
       <SimilarGames />
       {/* Meet Our Advisor Section */}
       <Advisor/>
