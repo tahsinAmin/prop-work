@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const eventsUserApi = createApi({
   reducerPath: "eventsUser",
-  baseQuery: fetchBaseQuery({baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/events/user`}),
+  baseQuery: fetchBaseQuery({baseUrl: `${process.env.NEXT_PUBLIC_EVENT_BASE_URL}/events/user`}),
   endpoints: (builder) => ({
 
       // get all products

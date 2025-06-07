@@ -3,23 +3,18 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
-import axios from 'axios';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Button, InputAdornment, TextField } from '@mui/material';
+import { Button, Grid, InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { primary } from '@/theme/palette';
 
 // Import custom components
 import OfferList from '@/components/dashboard/offer-list';
 
 // Import dashboard service
-import { DashboardStats } from '@/services/dashboard-service';
-import { mockDashboardData } from '@/data/mock-dashboard-data';
-import { primary } from '@/theme/palette';
 
 // Dashboard filter options
 
@@ -65,8 +60,6 @@ const filter = 'this-week';
 export default function DashboardView() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubCategory, setSelectedSubCategory] = useState('');
-  const [dashboardData, setDashboardData] = useState<{ current: DashboardStats; previous: DashboardStats } | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const handleCategoryChange = (event: SelectChangeEvent) => {
@@ -80,95 +73,6 @@ export default function DashboardView() {
 
   // Get sub-categories based on selected category
   const subCategories = selectedCategory ? categories[selectedCategory as keyof typeof categories] : [];
-
-  // Fetch dashboard data
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        // Fetch data from the API endpoint shown in the screenshot
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/summary`, {
-          params: { filter },
-          headers: {
-            Authorization: 'Bearer fake-jwt-token'
-          }
-        });
-
-        // Use the exact data structure from the screenshot
-        const apiData = response.data;
-        console.log("apiData = ", apiData);
-
-        // Create dashboard data structure from API response
-        const dashboardData = {
-          current: {
-            website_visits: {
-              'Sunday': { desktop: 40, mobile: 30 },
-              'Monday': { desktop: 60, mobile: 45 },
-              'Tuesday': { desktop: 25, mobile: 40 },
-              'Wednesday': { desktop: 45, mobile: 30 },
-              'Thursday': { desktop: 50, mobile: 20 },
-              'Friday': { desktop: 45, mobile: 10 },
-              'Saturday': { desktop: 90, mobile: 55 }
-            },
-            offers_sent: {
-              'Sunday': 10,
-              'Monday': 15,
-              'Tuesday': 25,
-              'Wednesday': 65,
-              'Thursday': 70,
-              'Friday': 95,
-              'Saturday': 55
-            },
-            total_stats: {
-              active_users: Number(apiData.current.active_users),
-              clicks: Number(apiData.current.clicks),
-              appearances: Number(apiData.current.appearance),
-              percentage: Number(apiData.previous.active_users) > 0
-                ? parseFloat(((apiData.current.active_users - apiData.previous.active_users) / Number(apiData.previous.active_users) * 100).toFixed(1))
-                : 0
-            }
-          },
-          previous: {
-            website_visits: {},
-            offers_sent: {},
-            total_stats: {
-              active_users: Number(apiData.previous.active_users),
-              clicks: Number(apiData.previous.clicks),
-              appearances: Number(apiData.previous.appearance),
-              percentage: apiData.previous.active_users > 0
-                ? parseFloat(((apiData.current.active_users - apiData.previous.active_users) / Number(apiData.previous.active_users) * 100).toFixed(1))
-                : 0
-            }
-          }
-        };
-
-        setDashboardData(dashboardData);
-      } catch (err) {
-        console.error('Error fetching dashboard data:', err);
-        // Use mock data instead of showing an error
-        setDashboardData({
-          current: mockDashboardData,
-          previous: {
-            ...mockDashboardData,
-            total_stats: {
-              ...mockDashboardData.total_stats,
-              active_users: Math.round(mockDashboardData.total_stats?.active_users * 0.92),
-              clicks: Math.round(mockDashboardData.total_stats?.clicks * 0.92),
-              appearances: Math.round(mockDashboardData.total_stats?.appearances * 0.92),
-            }
-          }
-        });
-        // Show a warning instead of error
-        setError('Using sample data. Could not connect to the API.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [filter]);
 
   return (
     <>
@@ -305,7 +209,7 @@ export default function DashboardView() {
                 <Button
                   variant="outlined"
                   color="primary"
-                  sx={{ textTransform: 'none', width: '218px', height: '60px' }}
+                  sx={{ backgroundColor: '#F4F8EE', textTransform: 'none', width: '218px', height: '60px' }}
                 >
                   Event Calendar
                 </Button>
@@ -332,30 +236,14 @@ export default function DashboardView() {
         <Button
           variant="outlined"
           color="primary"
-          sx={{ textTransform: 'none', width: '218px', height: '60px' }}
+          sx={{ backgroundColor: '#F4F8EE', textTransform: 'none', width: '218px', height: '60px' }}
         >
           My Events
         </Button>
       </Box>
 
 
-      {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-          <CircularProgress />
-        </Box>
-      )}
-
-      {error && (
-        <Alert severity="error" sx={{ mt: 2 }}>
-          {error}
-        </Alert>
-      )}
-
-      {!loading && !error && dashboardData && (
-        <>
-          <OfferList />
-        </>
-      )}
+      <OfferList />
     </>
   );
 }
