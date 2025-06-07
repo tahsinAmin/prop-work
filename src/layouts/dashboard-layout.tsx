@@ -44,6 +44,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeRoute, setActiveRoute] = useState('');
 
+  const pathname = usePathname();
+  const containerLeftPadding = pathname?.startsWith('/detail') ? '82px' : pathname?.startsWith('/dashboard') ?'100px':'190  ';
+  const containerRightPadding = pathname?.startsWith('/detail') ? '0' : pathname?.startsWith('/create') ? '245px' : '140px';
+  const containerTopPadding = pathname?.startsWith('/create') ?'0':'147px';
+
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
@@ -200,8 +205,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         sx={{ 
           flexGrow: 1,
           p: 3,
-          pl: { xs: 3, xl: '100px' },
-          pr: { xs: 3, xl: '140px' },
+          pt: containerTopPadding,
+          pl: { xs: 3, xl: containerLeftPadding },
+          pr: { xs: 3, xl: containerRightPadding },
           width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
           transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
