@@ -1,15 +1,42 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { Box, Typography, Button, Stack, Grid } from '@mui/material';
+import { Box, Typography, Button, Stack, Grid, Alert, CircularProgress } from '@mui/material';
 import Image from 'next/image';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ShareIcon from '@mui/icons-material/Share';
 import SimilarGames from '@/components/dashboard/similar-games';
 import Advisor from '@/components/dashboard/advisor';
+import { useGetSingleEventQuery } from "@/services/dashboard-service";
+import { useEffect, useState } from 'react';
 
 export default function DetailView() {
   const { id } = useParams();
+    const {data, isLoading, isError, error} = useGetSingleEventQuery(1);
+
+
+      useEffect(() => {
+        if (data) {
+          console.log('data', data)
+        }
+      }, [data]);
+    
+      useEffect(() => {
+        if (isError) {
+          console.error("Error details:", error);
+        }
+      }, [isError, error]);
+    
+      
+        if (isError) {
+          console.log("isError = ", isError);
+          return <Alert severity="error">Something went wrong</Alert>
+        }
+
+          {isLoading && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+              <CircularProgress />
+            </Box>
+          )}
 
   // Mock data - replace with actual data fetching
   const gameData = {
@@ -59,7 +86,7 @@ export default function DetailView() {
         <Box>
           <Box sx={{ mb: 1 }}>
             <Typography sx={{ fontWeight: '500', fontSize: '32px' }}>
-              {gameData.title}
+              {data?.title}
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16, mb: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>

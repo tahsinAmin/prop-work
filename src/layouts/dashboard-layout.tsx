@@ -430,8 +430,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -448,8 +446,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -466,8 +462,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
+
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -484,8 +479,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
+
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -502,8 +496,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
+
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -519,8 +512,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
+
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -536,8 +528,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
+
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -553,8 +544,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
+
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
@@ -570,8 +560,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ListItem disablePadding>
               <ListItemButton
                 component="a"
-                href="/onboarding"
-                selected={activeRoute.includes('/onboarding')}
+
               >
                 <ListItemIcon sx={{ minWidth: '30px' }}>
                   <Image
