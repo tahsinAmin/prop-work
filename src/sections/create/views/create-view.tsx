@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import {
   Box,
   Button,
@@ -12,12 +12,12 @@ import {
   Typography,
   Grid,
   MenuItem,
-  InputAdornment,
-  styled
+  styled,
+  Checkbox,
+  FormControlLabel
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { useAddNewEventMutation } from '@/services/dashboard-service';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -47,8 +47,8 @@ const formSchema = z.object({
   endTime: z.string().min(1, 'End time is required'),
   gameType: z.string().min(1, 'Game type is required'),
   creatingAs: z.string().min(1, 'Creating as is required'),
-  gameLocation: z.string().min(1, 'Game location is required'),
-  gameLocationLink: z.string().url('Please enter a valid URL'),
+  location: z.string().min(1, 'Game location is required'),
+  locationLink: z.string().url('Please enter a valid URL'),
   gameVideoLink: z.string().url('Please enter a valid YouTube URL'),
   meetingLink: z.string().url('Please enter a valid URL'),
   registrationLink: z.string().url('Please enter a valid URL'),
@@ -90,6 +90,7 @@ const districts = ['California', 'New York', 'Texas'];
 const cities = ['Los Angeles', 'San Francisco', 'San Diego'];
 
 export default function CreateView() {
+  const [addNewEvent, { isLoading, isError, data }] = useAddNewEventMutation();
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -120,8 +121,8 @@ export default function CreateView() {
       endTime: format(new Date(new Date().setHours(new Date().getHours() + 1)), TIME_FORMAT),
       gameType: '',
       creatingAs: '',
-      gameLocation: '',
-      gameLocationLink: '',
+      location: '',
+      locationLink: '',
       gameVideoLink: '',
       meetingLink: '',
       registrationLink: 'www.example-link.easy',
@@ -264,13 +265,50 @@ export default function CreateView() {
     fileInput?.click();
   };
 
-  const onSubmit = (data: FormValues) => {
-    console.log('Form data:', {
-      ...data,
-      // Combine date and time into datetime objects
-      startDateTime: new Date(`${data.startDate}T${data.startTime}`).toISOString(),
-      endDateTime: new Date(`${data.endDate}T${data.endTime}`).toISOString(),
-    });
+  // 1. First, define the type for your form values
+  type FormValues = z.infer<typeof formSchema>;
+
+  // 2. In your component, create a form submission handler
+  const onSubmit = async (data: FormValues) => {
+    try {
+      // Format the data to match your API expectations
+      const eventData = {
+        name: data.gameName,
+        title: data.gameTitle,
+        description: data.shortDescription,
+        category: data.category,
+        subCategory: data.subCategory,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        type: data.gameType,
+        location: data.location,
+        locationLink: data.locationLink,
+        videoLink: data.gameVideoLink,
+        meetingLink: data.meetingLink,
+        registrationLink: data.registrationLink,
+        country: data.country,
+        district: data.district,
+        city: data.city,
+        rules: data.gameRules,
+        prizes: data.gamePrizes,
+        terms: data.gameTerms,
+        contact: {
+          name: data.contactPersonName,
+          email: data.contactPersonEmail,
+          phone: data.contactPersonPhone,
+          image: data.contactPersonImage,
+        },
+      };
+
+      const result = await addNewEvent(eventData).unwrap();
+
+      console.log('Event created successfully:', result);
+
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
   };
 
   return (
@@ -282,7 +320,6 @@ export default function CreateView() {
         <Box component={'span'}>
           <Controller
             name="creatingAs"
-
             control={control}
             render={({ field }) => (
               <TextField
@@ -474,13 +511,6 @@ export default function CreateView() {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <CalendarTodayIcon />
-                            </InputAdornment>
-                          ),
-                        }}
                         error={!!errors.startDate}
                         helperText={errors.startDate?.message}
                       />
@@ -498,13 +528,6 @@ export default function CreateView() {
                         fullWidth
                         InputLabelProps={{
                           shrink: true,
-                        }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <CalendarTodayIcon />
-                            </InputAdornment>
-                          ),
                         }}
                         error={!!errors.endDate}
                         helperText={errors.endDate?.message}
@@ -530,13 +553,6 @@ export default function CreateView() {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <AccessTimeIcon />
-                            </InputAdornment>
-                          ),
-                        }}
                         error={!!errors.startTime}
                         helperText={errors.startTime?.message}
                       />
@@ -554,13 +570,6 @@ export default function CreateView() {
                         fullWidth
                         InputLabelProps={{
                           shrink: true,
-                        }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <AccessTimeIcon />
-                            </InputAdornment>
-                          ),
                         }}
                         error={!!errors.endTime}
                         helperText={errors.endTime?.message}
@@ -599,15 +608,15 @@ export default function CreateView() {
             <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Enter Game location *</Grid>
             <Grid item xs={12} sm={9}>
               <Controller
-                name="gameLocation"
+                name="location"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     label="Type here"
                     fullWidth
-                    error={!!errors.gameLocation}
-                    helperText={errors.gameLocation?.message}
+                    error={!!errors.location}
+                    helperText={errors.location?.message}
                   />
                 )}
               />
@@ -616,15 +625,15 @@ export default function CreateView() {
             <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Location Link (YouTube) *</Grid>
             <Grid item xs={12} sm={9}>
               <Controller
-                name="gameLocationLink"
+                name="locationLink"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     label="Type here"
                     fullWidth
-                    error={!!errors.gameLocationLink}
-                    helperText={errors.gameLocationLink?.message}
+                    error={!!errors.locationLink}
+                    helperText={errors.locationLink?.message}
                   />
                 )}
               />
@@ -755,9 +764,11 @@ export default function CreateView() {
                 )}
               />
             </Grid>
+
             {/* Game Details Section */}
             <Grid item xs={12} sx={{ mt: 3 }}>
-              <Typography variant="h6" gutterBottom>Game Details</Typography>
+              <Box sx={{ mb: 4, display: 'flex', justifyContent: 'end' }}><FormControlLabel control={<Checkbox defaultChecked />} label="Registration available" /></Box>
+              <Typography sx={{ fontSize: '24px', fontWeight: '500', color: 'primary.main' }} gutterBottom>Add Game Registration Form’s Field</Typography>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Controller
@@ -957,14 +968,21 @@ export default function CreateView() {
             </Grid>
             <Grid item xs={12} sx={{ mt: 2 }}>
               <Button
+                variant="outlined"
+                color="primary"
+                sx={{ backgroundColor: '#F4F8EE', textTransform: 'none', width: '218px', height: '60px' }}
+              >
+                Save draft and Exit
+              </Button>
+              <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 size="large"
                 fullWidth
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLoading}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
+                {isSubmitting || isLoading ? 'Creating Event...' : 'Create Event'}
               </Button>
             </Grid>
           </Grid>
