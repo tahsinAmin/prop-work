@@ -82,7 +82,7 @@ export default function DetailView() {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', gap: 1 }}>
-          <Typography sx={{ fontSize: '24px', fontWeight: '500', display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ fontSize: '24px', fontWeight: '500', display: 'flex', alignItems: 'center', gap: 1 }}>
             <Box component="span" sx={{ fontSize: '20px', color: 'primary.main' }}>{gameData.city}</Box>
             <Box>{gameData.country}</Box>
             <Image
@@ -91,7 +91,7 @@ export default function DetailView() {
               width={20}
               height={20}
             />
-          </Typography>
+          </Box>
           <Typography>
             Another District or anything name need
           </Typography>
@@ -116,7 +116,7 @@ export default function DetailView() {
         <Grid item xs={12} md={6}>
 
           <Box sx={{ mb: 1 }}>
-            <Typography sx={{ fontWeight: '500', fontSize: '32px', lineHeight: 1 }}>
+            <Typography sx={{ fontWeight: '500', fontSize: '32px', lineHeight: 1.2 }}>
               Event Videos
             </Typography>
             <Typography sx={{ fontWeight: '400', fontSize: '16px', lineHeight: 1 }}>
@@ -135,43 +135,18 @@ export default function DetailView() {
             }
           }}>
             <Image
-              src="/video-1.PNG"
+              src="/video-1.jpg"
               alt="Game Trailer"
               fill
               style={{ objectFit: 'cover' }}
             />
-            <Box
-              className="play-button"
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                transition: 'transform 0.3s',
-              }}
-              onClick={() => window.open(gameData.videoLink, '_blank')}
-            >
-              <Box
-                sx={{
-                  width: 60,
-                  height: 60,
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <PlayArrowIcon sx={{ fontSize: 30, color: 'primary.main' }} />
-              </Box>
-            </Box>
           </Box>
         </Grid>
 
         {/* Map Section */}
         <Grid item xs={12} md={6}>
           <Box sx={{ mb: 1 }}>
-            <Typography sx={{ fontWeight: '500', fontSize: '32px', lineHeight: 1 }}>
+            <Typography sx={{ fontWeight: '500', fontSize: '32px', lineHeight: 1.2 }}>
               Game Location
             </Typography>
             <Typography sx={{ fontWeight: '400', fontSize: '16px', lineHeight: 1 }}>

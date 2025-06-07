@@ -36,10 +36,6 @@
   margin-right: 30px !important;
 }
 
-/* Styles for the swiper buttons to navigate slides.
-   Both .swiper-button-next and .swiper-button-prev have a relative position,
-   a height and width of 62px, a blue background color, rounded corners,
-   and white text color for better visibility */
 .swiper-button-next, .swiper-button-prev {
   position: relative;
     height: 62px;
@@ -54,12 +50,12 @@
   color: #ffffff;  
 }
 .swiper-button-next {
-  right: -1233px;
+  right: -1206px;
   top: calc(var(--top-position) - 40px);
 }
 
 .swiper-button-prev {
-  left: 1149px;
+  left: 1130px;
   top: calc(var(--top-position));
 }
 

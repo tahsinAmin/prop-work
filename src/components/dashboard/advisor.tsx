@@ -114,7 +114,7 @@ const Advisor = () => {
             <Box sx={{ 
               position: 'relative',
               width: '100%',
-              height: '441px',
+              height: '445px',
               borderRadius: 2,
               overflow: 'hidden',
             }}>
