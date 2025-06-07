@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [activeRoute, setActiveRoute] = useState('');
 
   const pathname = usePathname();
-  const containerLeftPadding = pathname?.startsWith('/detail') ? '82px' : pathname?.startsWith('/dashboard') ?'100px':'190  ';
+  const containerLeftPadding = pathname?.startsWith('/detail') ? '82px' : pathname?.startsWith('/dashboard') ?'100px':'190px';
   const containerRightPadding = pathname?.startsWith('/detail') ? '0' : pathname?.startsWith('/create') ? '245px' : '140px';
   const containerTopPadding = pathname?.startsWith('/create') ?'0':'147px';
 
