@@ -1,3 +1,12 @@
+# Details Page
+`http://localhost:3000/detail`
+
+# Dashboard Page
+`http://localhost:3000/dashboard`
+
+# Create Event
+`http://localhost:3000/create`
+
 [] Working on 1920, 1440, 768 & 480 px first
 [] Light/Dark Mode https://v6.mui.com/material-ui/react-switch/#customization
 [] Notification icon https://v6.mui.com/material-ui/react-badge/#dot-badge
