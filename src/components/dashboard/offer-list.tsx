@@ -94,37 +94,37 @@ const OfferList = () => {
       </Grid>
 
       {data?.results?.map((event: any, index: number) => {
-        const statusStyle = getStatusColor(event.status);
+        const statusStyle = getStatusColor(event?.status);
         return (
-          <Grid key={event.id} container spacing={1} sx={{ p: '38px 40px 32px', mb: '20px', borderRadius: 2, border: '1px solid #E0E0E0' }}>
+          <Grid key={event?.id} container spacing={1} sx={{ p: '38px 40px 32px', mb: '20px', borderRadius: 2, border: '1px solid #E0E0E0' }}>
             <Grid item xs={12} md={1}>
               0{index + 1}
             </Grid>
             <Grid item xs={12} md={2}>
-              <Typography variant="body2">{event.title}</Typography>
+              <Typography variant="body2">{event?.title}</Typography>
               <Typography variant="caption" color="textSecondary">
-                Powered by {event.admin_comment}
+                Powered by {event?.admin_comment}
               </Typography>
             </Grid>
             <Grid item xs={12} md={2}>
               <Typography variant="body2">
-                {dayjs(event.start_date).format("MMMM DD, YYYY")}
+                {dayjs(event?.start_date).format("MMMM DD, YYYY")}
               </Typography>
               <Typography variant="caption" color="textSecondary">
-                {event.start_time.slice(0, 5)} -{" "}
-                {event.end_time.slice(0, 5)}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Typography variant="body2">{event.country}</Typography>
-              <Typography variant="caption" color="textSecondary">
-                {event.city}
+                {event?.start_time?.slice(0, 5)} -{" "}
+                {event?.end_time?.slice(0, 5)}
               </Typography>
             </Grid>
             <Grid item xs={12} md={2}>
-              <Typography variant="body2">{event.country}</Typography>
+              <Typography variant="body2">{event?.country}</Typography>
               <Typography variant="caption" color="textSecondary">
-                {event.location}
+                {event?.city}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant="body2">{event?.country}</Typography>
+              <Typography variant="caption" color="textSecondary">
+                {event?.location}
               </Typography>
             </Grid>
             <Grid item xs={12} md={1}>
