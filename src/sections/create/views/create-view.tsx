@@ -14,7 +14,9 @@ import {
   MenuItem,
   styled,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useAddNewEventMutation } from '@/services/dashboard-service';
@@ -36,8 +38,8 @@ const DATE_FORMAT = 'yyyy-MM-dd';
 const TIME_FORMAT = 'HH:mm';
 
 const formSchema = z.object({
-  gameName: z.string().min(1, 'Game name is required'),
-  gameTitle: z.string().min(1, 'Game title is required'),
+  eventName: z.string().min(1, 'Event name is required'),
+  eventTitle: z.string().min(1, 'Event title is required'),
   shortDescription: z.string().min(1, 'Short description is required'),
   category: z.string().min(1, 'Category is required'),
   subCategory: z.string().optional(),
@@ -45,20 +47,20 @@ const formSchema = z.object({
   endDate: z.string().min(1, 'End date is required'),
   startTime: z.string().min(1, 'Start time is required'),
   endTime: z.string().min(1, 'End time is required'),
-  gameType: z.string().min(1, 'Game type is required'),
+  eventType: z.string().min(1, 'Event type is required'),
   creatingAs: z.string().min(1, 'Creating as is required'),
-  location: z.string().min(1, 'Game location is required'),
+  location: z.string().min(1, 'Event location is required'),
   locationLink: z.string().url('Please enter a valid URL'),
-  gameVideoLink: z.string().url('Please enter a valid YouTube URL'),
+  eventVideoLink: z.string().url('Please enter a valid YouTube URL'),
   meetingLink: z.string().url('Please enter a valid URL'),
   registrationLink: z.string().url('Please enter a valid URL'),
   country: z.string().min(1, 'Country is required'),
   district: z.string().min(1, 'District is required'),
   city: z.string().min(1, 'City is required'),
-  gameDescription: z.string().min(1, 'Game description is required'),
-  gameRules: z.string().min(1, 'Game rules are required'),
-  gamePrizes: z.string().min(1, 'Game prizes information is required'),
-  gameTerms: z.string().min(1, 'Terms & conditions are required'),
+  eventDescription: z.string().min(1, 'Event description is required'),
+  eventRules: z.string().min(1, 'Event rules are required'),
+  eventPrizes: z.string().min(1, 'Event prizes information is required'),
+  eventTerms: z.string().min(1, 'Terms & conditions are required'),
   contactPersonName: z.string().min(1, 'Contact person name is required'),
   contactPersonEmail: z.string().email('Please enter a valid email'),
   contactPersonPhone: z.string().min(1, 'Phone number is required'),
@@ -84,13 +86,14 @@ type FormValues = z.infer<typeof formSchema>;
 
 // Mock data - replace with actual data from your API
 const categories = ['Action', 'Adventure', 'Strategy', 'Puzzle'];
-const gameTypes = ['Online', 'Offline', 'Hybrid'];
+const eventTypes = ['Online', 'Offline', 'Hybrid'];
 const countries = ['United States', 'Canada', 'United Kingdom'];
 const districts = ['California', 'New York', 'Texas'];
 const cities = ['Los Angeles', 'San Francisco', 'San Diego'];
 
 export default function CreateView() {
-  const [addNewEvent, { isLoading, isError, data }] = useAddNewEventMutation();
+  const [addNewEvent, { data, isError, isLoading }] = useAddNewEventMutation();
+   
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -101,6 +104,12 @@ export default function CreateView() {
   const [isContactDragging, setIsContactDragging] = useState(false);
   const [contactUploadError, setContactUploadError] = useState<string | null>(null);
 
+  const [alert, setAlert] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
   const {
     control,
     handleSubmit,
@@ -110,8 +119,8 @@ export default function CreateView() {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      gameName: '',
-      gameTitle: '',
+      eventName: '',
+      eventTitle: '',
       shortDescription: '',
       category: '',
       subCategory: '',
@@ -119,20 +128,20 @@ export default function CreateView() {
       endDate: format(new Date(), DATE_FORMAT),
       startTime: format(new Date(), TIME_FORMAT),
       endTime: format(new Date(new Date().setHours(new Date().getHours() + 1)), TIME_FORMAT),
-      gameType: '',
+      eventType: '',
       creatingAs: '',
       location: '',
       locationLink: '',
-      gameVideoLink: '',
+      eventVideoLink: '',
       meetingLink: '',
       registrationLink: 'www.example-link.easy',
       country: '',
       district: '',
       city: '',
-      gameDescription: '',
-      gameRules: '',
-      gamePrizes: '',
-      gameTerms: '',
+      eventDescription: '',
+      eventRules: '',
+      eventPrizes: '',
+      eventTerms: '',
       contactPersonName: '',
       contactPersonEmail: '',
       contactPersonPhone: '',
@@ -273,8 +282,8 @@ export default function CreateView() {
     try {
       // Format the data to match your API expectations
       const eventData = {
-        name: data.gameName,
-        title: data.gameTitle,
+        name: data.eventName,
+        title: data.eventTitle,
         description: data.shortDescription,
         category: data.category,
         subCategory: data.subCategory,
@@ -282,18 +291,18 @@ export default function CreateView() {
         endDate: data.endDate,
         startTime: data.startTime,
         endTime: data.endTime,
-        type: data.gameType,
+        type: data.eventType,
         location: data.location,
         locationLink: data.locationLink,
-        videoLink: data.gameVideoLink,
+        videoLink: data.eventVideoLink,
         meetingLink: data.meetingLink,
         registrationLink: data.registrationLink,
         country: data.country,
         district: data.district,
         city: data.city,
-        rules: data.gameRules,
-        prizes: data.gamePrizes,
-        terms: data.gameTerms,
+        rules: data.eventRules,
+        prizes: data.eventPrizes,
+        terms: data.eventTerms,
         contact: {
           name: data.contactPersonName,
           email: data.contactPersonEmail,
@@ -311,11 +320,88 @@ export default function CreateView() {
     }
   };
 
+  const handleAddNewEvent = async () => {
+    try {
+      let newData = {
+        "contact_person": [
+          {
+            "name": "string",
+            "position": "string",
+            "email": "user@example.com",
+            "contact_number": "string",
+            "wa_number": "string",
+            "company": "string",
+            "whatsapp_available": true,
+            "language": "string",
+            "photo": "string"
+          }
+        ],
+        "title": "string",
+        "description": "string",
+        "start_date": "2025-03-19",
+        "end_date": "2025-03-19",
+        "is_all_day": true,
+        "start_time": "string",
+        "end_time": "string",
+        "event_image": "string",
+        "event_video": "string",
+        "event_type": "online",
+        "registration_available": true,
+        "registration_last_date": "2025-03-19",
+        "registration_link": "string",
+        "category": [
+          "real_estate"
+        ],
+        "sub_category": [
+          "property_showcase_launch"
+        ],
+        "meeting_link": "string",
+        "country": "string",
+        "district": "string",
+        "city": "string",
+        "location": "string",
+        "location_link": "string",
+        "text_color": "string",
+        "bg_color": "string"
+      }
+      const result = await addNewEvent(newData);
+      console.log('Event created successfully:', result);
+      if (result?.data) {
+       console.log('Data!');
+      }
+      if (result?.error) {
+        console.log(result?.error)
+        setAlert({
+          open: true,
+          severity: 'error',
+          message: result?.error?.data?.message,
+        })
+      }
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
+  }
+ 
   return (
     <Box sx={{ p: 3 }}>
+
+      {alert.open ? <Alert severity='error' onClose={() => {setAlert({ ...alert, open: false })}}>
+        <AlertTitle>{alert.severity}</AlertTitle>
+        {alert.message}
+      </Alert> : null}
+
+      <Button
+          variant="contained"
+          color="primary"
+          sx={{ textTransform: 'none', width: '218px', height: '60px' }}
+          onClick={handleAddNewEvent}
+        >
+          Add New field
+        </Button> 
+
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Typography component={'span'} sx={{ fontSize: '14px', color: '#F5BE30' }}>
-          You are creating game as
+          You are creating event as
         </Typography>
         <Box component={'span'}>
           <Controller
@@ -339,9 +425,9 @@ export default function CreateView() {
         </Box>
       </Box>
 
-      <Typography variant="subtitle1" sx={{ color: 'primary.main', fontSize: '24px', lineHeight: 1, mt: 3 }}>Game Cover Image</Typography>
+      <Typography variant="subtitle1" sx={{ color: 'primary.main', fontSize: '24px', lineHeight: 1, mt: 3 }}>Event Cover Image</Typography>
       <Typography variant="body2" color="text.secondary" gutterBottom>
-        Upload photos that describe your game visually
+        Upload photos that describe your event visually
       </Typography>
 
       <Box
@@ -390,45 +476,45 @@ export default function CreateView() {
       </Box>
 
       <Box>
-        <Typography variant="subtitle1" sx={{ color: 'primary.main', fontSize: '24px', lineHeight: 1, mt: 3 }}>Game Information</Typography>
+        <Typography variant="subtitle1" sx={{ color: 'primary.main', fontSize: '24px', lineHeight: 1, mt: 3 }}>Event Information</Typography>
         <Box sx={{ width: '317px', height: '1px', backgroundColor: 'primary.main', my: 1 }} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Name * </Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Name * </Grid>
             <Grid item xs={12} sm={9}>
               <Controller
-                name="gameName"
+                name="eventName"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     label="Type here"
                     fullWidth
-                    error={!!errors.gameName}
-                    helperText={errors.gameName?.message}
+                    error={!!errors.eventName}
+                    helperText={errors.eventName?.message}
                   />
                 )}
               />
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Title * </Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Title * </Grid>
             <Grid item xs={12} sm={9}>
               <Controller
-                name="gameTitle"
+                name="eventTitle"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     label="Type here"
                     fullWidth
-                    error={!!errors.gameTitle}
-                    helperText={errors.gameTitle?.message}
+                    error={!!errors.eventTitle}
+                    helperText={errors.eventTitle?.message}
                   />
                 )}
               />
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Short Description * </Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Short Description * </Grid>
             <Grid item xs={12} sm={9}>
               <Controller
                 name="shortDescription"
@@ -538,7 +624,7 @@ export default function CreateView() {
               </Grid>
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Time *</Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Time *</Grid>
             <Grid item xs={12} sm={9}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
@@ -580,22 +666,22 @@ export default function CreateView() {
               </Grid>
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Type *</Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Type *</Grid>
             <Grid item xs={12} sm={9}>
               <Controller
-                name="gameType"
+                name="eventType"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     select
-                    label="Game Type *"
+                    label="Event Type *"
                     fullWidth
-                    error={!!errors.gameType}
-                    helperText={errors.gameType?.message}
+                    error={!!errors.eventType}
+                    helperText={errors.eventType?.message}
                   >
                     <MenuItem value="">Choose here</MenuItem>
-                    {gameTypes.map((option) => (
+                    {eventTypes.map((option) => (
                       <MenuItem key={option} value={option}>
                         {option}
                       </MenuItem>
@@ -605,7 +691,7 @@ export default function CreateView() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Enter Game location *</Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Enter Event location *</Grid>
             <Grid item xs={12} sm={9}>
               <Controller
                 name="location"
@@ -622,7 +708,7 @@ export default function CreateView() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Location Link (YouTube) *</Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Location Link (YouTube) *</Grid>
             <Grid item xs={12} sm={9}>
               <Controller
                 name="locationLink"
@@ -639,24 +725,24 @@ export default function CreateView() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Video Link *</Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Video Link *</Grid>
             <Grid item xs={12} sm={9}>
               <Controller
-                name="gameVideoLink"
+                name="eventVideoLink"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     label="Type here"
                     fullWidth
-                    error={!!errors.gameVideoLink}
-                    helperText={errors.gameVideoLink?.message}
+                    error={!!errors.eventVideoLink}
+                    helperText={errors.eventVideoLink?.message}
                   />
                 )}
               />
             </Grid>
 
-            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Game Meeting Link *</Grid>
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Event Meeting Link *</Grid>
             <Grid item xs={12} sm={9}>
               <Controller
                 name="meetingLink"
@@ -765,79 +851,109 @@ export default function CreateView() {
               />
             </Grid>
 
-            {/* Game Details Section */}
+            {/* Event Details Section */}
             <Grid item xs={12} sx={{ mt: 3 }}>
               <Box sx={{ mb: 4, display: 'flex', justifyContent: 'end' }}><FormControlLabel control={<Checkbox defaultChecked />} label="Registration available" /></Box>
-              <Typography sx={{ fontSize: '24px', fontWeight: '500', color: 'primary.main' }} gutterBottom>Add Game Registration Form’s Field</Typography>
+              <Typography sx={{ fontSize: '24px', fontWeight: '500', color: 'primary.main' }} gutterBottom>Add Event Registration Form’s Field</Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ textTransform: 'none', width: '218px', height: '60px' }}
+              >
+                Add New field
+              </Button> 
               <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <Controller
-                    name="gameDescription"
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label="Type here"
-                        fullWidth
-                        multiline
-                        rows={4}
-                        error={!!errors.gameDescription}
-                        helperText={errors.gameDescription?.message}
-                      />
-                    )}
+              <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Registration Link *</Grid>
+            <Grid item xs={12} sm={9}>
+              <Controller
+                name="registrationLink"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Type here"
+                    fullWidth
+                    error={!!errors.registrationLink}
+                    helperText={errors.registrationLink?.message}
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <Controller
-                    name="gameRules"
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label="Game Rules *"
-                        fullWidth
-                        multiline
-                        rows={4}
-                        error={!!errors.gameRules}
-                        helperText={errors.gameRules?.message}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Controller
-                    name="gamePrizes"
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label="Game Prizes *"
-                        fullWidth
-                        multiline
-                        rows={3}
-                        error={!!errors.gamePrizes}
-                        helperText={errors.gamePrizes?.message}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Controller
-                    name="gameTerms"
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label="Game Terms & Conditions *"
-                        fullWidth
-                        multiline
-                        rows={3}
-                        error={!!errors.gameTerms}
-                        helperText={errors.gameTerms?.message}
-                      />
-                    )}
-                  />
-                </Grid>
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Country *</Grid>
+            <Grid item xs={12} sm={9}>
+              <Controller
+                name="country"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    label="Type here"
+                    fullWidth
+                    error={!!errors.country}
+                    helperText={errors.country?.message}
+                  >
+                    <MenuItem value="">Choose here</MenuItem>
+                    {countries.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>District *</Grid>
+            <Grid item xs={12} sm={9}>
+              <Controller
+                name="district"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    label="Type here"
+                    fullWidth
+                    error={!!errors.district}
+                    helperText={errors.district?.message}
+                  >
+                    <MenuItem value="">Choose here</MenuItem>
+                    {districts.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>City *</Grid>
+            <Grid item xs={12} sm={9}>
+              <Controller
+                name="city"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    label="Type here"
+                    fullWidth
+                    error={!!errors.city}
+                    helperText={errors.city?.message}
+                  >
+                    <MenuItem value="">Choose here</MenuItem>
+                    {cities.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
               </Grid>
             </Grid>
             {/* Contact Person Details Section */}
