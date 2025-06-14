@@ -1,10 +1,18 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { Box, Typography, Button, Stack, Grid, Alert, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  Stack,
+  Grid,
+  Alert,
+  CircularProgress,
+} from "@mui/material";
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
-import SimilarGames from "@/components/dashboard/similar-games";
+import SimilarEvents from "@/components/dashboard/similar-events";
 import Advisor from "@/components/dashboard/advisor";
 import { useGetSingleEventQuery } from "@/services/dashboard-service";
 import { useEffect } from "react";
@@ -45,7 +53,7 @@ export default function DetailView() {
     category: "REAL ESTATE EVENTS",
     subCategory: "Property Showcases & Launches",
     status: "approved",
-    gameType: "Online",
+    eventType: "Online",
     startDate: data?.start_date,
     endDate: data?.end_date,
     startTime: data?.start_time,
@@ -324,9 +332,9 @@ export default function DetailView() {
           </Button>
         </Grid>
       </Grid>
-      <SimilarGames />
+      <SimilarEvents />
       {/* Meet Our Advisor Section */}
-      <Advisor/>
+      <Advisor />
     </Box>
   );
 }

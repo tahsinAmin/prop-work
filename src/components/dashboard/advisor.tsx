@@ -60,7 +60,7 @@ const Advisor = () => {
                 {contactPerson.name}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 400, fontSize: '24px', mb: 3 }}>
-              Your Game Expert
+              Your Event Expert
               </Typography>
 
               <Box sx={{ fontWeight: 400, mb: 0.5 }}>

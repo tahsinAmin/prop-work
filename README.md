@@ -11,7 +11,7 @@
 - [] No property for Event name
 
 # Todo
-- [x] highlight text, "100,000+ Games releasing this year!" and change text.
+- [x] highlight text, "100,000+ events releasing this year!" and change text.
 - [] Working on 1920, 1440, 768 & 480 px first
 - [x] Light/Dark Mode https://v6.mui.com/material-ui/react-switch/#customization
 - [] Notification icon https://v6.mui.com/material-ui/react-badge/#dot-badge
@@ -29,9 +29,11 @@
         - [] Swicth for day/night
         [x] Notification pulse
 - [] Homepage
+    - [] Take it to Dashboard
     - [] Clicking on edit shall take me to update page in Create
 
 - [] Create Event /create
+    - [] Success Alert or redirect to Dashboard
     - [] Label to have red asterik using context maybe?
     - [] Placeholder to be italic
     - [] - Label should be bolder
