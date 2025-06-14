@@ -9,13 +9,22 @@ import {
   Grid,
   Alert,
   CircularProgress,
+  Paper,
+  SxProps,
+  Theme,
 } from "@mui/material";
 import Image from "next/image";
-import ShareIcon from "@mui/icons-material/Share";
+import PlaceIcon from '@mui/icons-material/Place';
+import ReplyIcon from '@mui/icons-material/Reply';
 import SimilarEvents from "@/components/dashboard/similar-events";
 import Advisor from "@/components/dashboard/advisor";
 import { useGetSingleEventQuery } from "@/services/dashboard-service";
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
+interface YouTubeEmbedProps {
+  videoId: string;
+  title?: string; // Optional title prop
+  sx?: SxProps<Theme>; // sx prop type for Material-UI components
+}
 
 export default function DetailView() {
   const { id } = useParams();
@@ -32,6 +41,43 @@ export default function DetailView() {
       console.error("Error details:", error);
     }
   }, [isError, error]);
+
+  const YouTubeEmbed: FC<YouTubeEmbedProps> = ({ videoId, title = 'YouTube video player', sx }) => {
+    // Base URL for embedding YouTube videos
+    const embedUrl: string = `https://www.youtube.com/embed/${videoId}`; // Explicitly type embedUrl
+
+    return (
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          paddingBottom: '56.25%', // 16:9 aspect ratio (height / width = 9 / 16 = 0.5625)
+          height: 0,
+          overflow: 'hidden',
+          backgroundColor: 'black', // Background when loading/before video plays
+          borderRadius: '8px', // Rounded corners for the container
+          ...sx, // Allow overriding styles with passed sx prop
+        }}
+      >
+        <iframe
+          src={embedUrl}
+          title={title}
+          frameBorder="0" // No border around the iframe
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen // Allow full screen mode
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none', // Ensure no iframe border
+            borderRadius: 'inherit', // Inherit border-radius from parent Box
+          }}
+        ></iframe>
+      </Box>
+    );
+  };
 
   if (isError) {
     console.log("isError = ", isError);
@@ -64,8 +110,8 @@ export default function DetailView() {
     description: data?.description,
     coverImage: "/game-1.jpg",
     admin_comment: "RAK Properties",
-    city: "Al Ain",
-    country: data?.country,
+    city: data?.city ? data?.city : "Al Ain",
+    country: data?.country ? data?.country : "Dubai",
   };
 
   return (
@@ -107,7 +153,7 @@ export default function DetailView() {
                 mb: 2,
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Typography>
                   {new Date(
                     `1970-01-01T${eventData.startTime}`
@@ -125,15 +171,18 @@ export default function DetailView() {
                     hour12: true,
                   })}{" "}
                   at{" "}
-                  {new Date(eventData.startDate).toLocaleDateString("en-US", {
+                </Typography>
+                <Typography sx={{ color: "primary.main" }}>
+                  {" "}{new Date(eventData.startDate).toLocaleDateString("en-US", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
                   })}
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography>Powered by {eventData.admin_comment}</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Typography>Powered by</Typography>
+                <Typography sx={{ color: "#B3B3B3" }}> {eventData.admin_comment}</Typography>
               </Box>
             </Box>
             <Box sx={{ mb: 0 }}>
@@ -183,15 +232,16 @@ export default function DetailView() {
           <Button
             variant="outlined"
             color="primary"
-            endIcon={<ShareIcon />}
+            endIcon={<ReplyIcon sx={{ transform: 'scaleX(-1)' }} />}
             sx={{
               backgroundColor: "#F4F8EE",
               textTransform: "none",
               width: "218px",
               height: "60px",
+              fontWeight: "500",
             }}
           >
-            Share Event
+            Share event
           </Button>
         </Box>
       </Stack>
@@ -202,7 +252,7 @@ export default function DetailView() {
       {/* Video and Map Section */}
       <Grid container spacing={4} sx={{ mb: 4, pr: "140px" }}>
         {/* Video Section */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}>
           <Box sx={{ mb: 1 }}>
             <Typography
               sx={{ fontWeight: "500", fontSize: "32px", lineHeight: 1.2 }}
@@ -220,7 +270,7 @@ export default function DetailView() {
               position: "relative",
               width: "100%",
               height: 300,
-              borderRadius: 2,
+              borderRadius: 1,
               overflow: "hidden",
               cursor: "pointer",
               "&:hover .play-button": {
@@ -228,25 +278,22 @@ export default function DetailView() {
               },
             }}
           >
-            <Image
-              src="/video-1.jpg"
-              alt="Event Trailer"
-              fill
-              style={{ objectFit: "cover" }}
-            />
+            <Paper sx={{ mb: 4, width: '100%', borderRadius: 2 }}>
+              <YouTubeEmbed videoId="dQw4w9WgXcQ" title="Rick Astley - Never Gonna Give You Up" />
+            </Paper>
           </Box>
         </Grid>
 
         {/* Map Section */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={7}>
           <Box sx={{ mb: 1 }}>
             <Typography
               sx={{ fontWeight: "500", fontSize: "32px", lineHeight: 1.2 }}
             >
-              Event Location
+              <PlaceIcon sx={{ color: 'red' }} /> Event Location
             </Typography>
             <Typography
-              sx={{ fontWeight: "400", fontSize: "16px", lineHeight: 1 }}
+              sx={{ fontWeight: "400", fontSize: "16px", lineHeight: 1, ml: '34px', color: 'rgba(51, 51, 51, 1)' }}
             >
               Find our place easly
             </Typography>
@@ -255,7 +302,7 @@ export default function DetailView() {
             sx={{
               width: "100%",
               height: 300,
-              borderRadius: 2,
+              borderRadius: 1,
               overflow: "hidden",
               backgroundColor: "#f5f5f5",
               display: "flex",
