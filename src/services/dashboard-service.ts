@@ -18,10 +18,11 @@ export const eventsUserApi = createApi({
       // add a mutation
       addNewEvent: builder.mutation({
           query: (newEvent) => ({
-              url: "",
+              url: "/",
               method: "POST",
               headers: {
                   "Content-Type": "application/json",
+                  "accept": "application/json",
               },
               body: newEvent
           })

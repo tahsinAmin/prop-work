@@ -36,16 +36,12 @@ const VisuallyHiddenInput = styled("input")({
 
 const formSchema = z.object({
   city: z.string().min(1, "City is required"),
-  creatingAs: z.string().min(1, 'Creating as is required'),
+  creatingAs: z.string().min(1, "Creating as is required"),
   eventName: z.string().min(1, "Event name is required"),
   eventTitle: z.string().min(1, "Event title is required"),
   description: z.string().min(1, "Short description is required"),
-  category: z.array(
-    z.string().min(1, 'Category is required')
-  ),
-  subCategory: z.array(
-    z.string().min(1, 'Sub Category is required')
-  ),
+  category: z.array(z.string().min(1, "Category is required")),
+  subCategory: z.array(z.string().min(1, "Sub Category is required")),
   startDate: z.string().min(1, "Start date is required"),
   endDate: z.string().min(1, "End date is required"),
   startTime: z.string().min(1, "Start time is required"),
@@ -120,6 +116,7 @@ const districts = ["Dhaka", "New York", "Texas"];
 const cities = ["Los Angeles", "San Francisco", "Bashundhara"];
 
 export default function CreateView() {
+  console.log("Component rendered");
   const [addNewEvent, { data, isError, isLoading }] = useAddNewEventMutation();
 
   const [coverImage, setCoverImage] = useState<File | null>(null);
@@ -175,8 +172,8 @@ export default function CreateView() {
       eventTitle: "Bangladesh International Tools & Hardware Expo 2025",
       description:
         "Bangladesh International Tools & Hardware Expo is the largest Platform for showcasing Hand Tools, Power Tools, Machine Tools, Industrial Tools, and all types of Fasteners in Bangladesh's fast-growing market. At the BITH EXPO, the global & local tools and fastener industry will display the latest and most innovative products like hand tools, power tools, machine tools, fasteners, cutting & welding Tools, Garden Equipment's, Doors & Windows Tools and accessories, building material tools, plumbing equipment's, DIY tools, electrical hardware tools, paints etc.",
-      category: ['luxury_asset'],
-      subCategory: ['luxury_car_exhibition'],
+      category: ["luxury_asset"],
+      subCategory: ["luxury_car_exhibition"],
       startDate: "2025-06-19",
       endDate: "2025-06-21",
       startTime: "09:00",
@@ -195,7 +192,7 @@ export default function CreateView() {
       //     name: "Tahsin",
       //     position: "string",
       //     email: "tahsin@example.com",
-      //     contactNumber: "01756080382",
+      //     contactNumber: "017XXXXXXXX",
       //     waNumber: "string",
       //     company: "string",
       //     whatsappAvailable: true,
@@ -206,12 +203,13 @@ export default function CreateView() {
     },
   });
 
-
   // 1. First, define the type for your form values
   type FormValues = z.infer<typeof formSchema>;
 
   // 2. In your component, create a form submission handler
   const onSubmit = async (data: FormValues) => {
+    console.log("Form submission started");
+    console.log("Form data:", data);
     try {
       // Format the data to match your API expectations
       const eventData = {
@@ -233,21 +231,33 @@ export default function CreateView() {
         registration_link: data.registrationLink,
         // registration_available: true,
         district: data.district,
-        contact_person: [{
-          name: "Tahsin",
-          position: "string",
-          email: "tahsin@example.com",
-          contact_number: "017xxxxxxxx",
-          wa_number: "017xxxxxxxx",
-          company: "string",
-          whatsapp_available: true,
-          language: "string",
-          photo: "string",
-        }],
+        contact_person: [
+          {
+            name: "Tahsin",
+            position: "string",
+            email: "tahsin@example.com",
+            contact_number: "017xxxxxxxx",
+            wa_number: "017xxxxxxxx",
+            company: "string",
+            whatsapp_available: true,
+            language: "string",
+            photo: "string",
+          },
+        ],
       };
 
       const result = await addNewEvent(eventData);
+      console.log(
+        "Event created successfully:",
+        result,
+        "\n\neventData:",
+        eventData
+      );
+      if (result?.data) {
+        console.log("Data!");
+      }
       if (result?.error) {
+        console.log(result?.error);
         setAlert({
           open: true,
           severity: "error",
@@ -263,8 +273,6 @@ export default function CreateView() {
       console.error("Error creating event:", error);
     }
   };
-
-
 
   const handleClick = () => {
     const fileInput = document.getElementById(
@@ -397,7 +405,6 @@ export default function CreateView() {
     fileInput?.click();
   };
 
-
   return (
     <Box sx={{ p: 3 }}>
       {alert.open ? (
@@ -454,13 +461,23 @@ export default function CreateView() {
 
         <Typography
           variant="subtitle1"
-          sx={{ color: "primary.main", fontSize: "24px", lineHeight: 1, mt: 3 }}
+          sx={{ color: "primary.main", fontSize: "24px", lineHeight: 1, my: 3 }}
         >
           Event Cover Image
         </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Upload photos that describe your event visually
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+           <Box>
+           <Typography variant="body2" sx={{ color: "black", fontWeight: "600", fontSize: "16px", mb: '0' }} gutterBottom>Images</Typography>
+            <Typography variant="body2" color="#A8B0BF" gutterBottom>
+              Upload photos that describe your event visually
+            </Typography>
+           </Box>
+           <Box>
+            <Typography variant="body2" color="#A8B0BF"  sx={{ fontWeight: "600" }}>
+              (Maximum - 10MB)
+            </Typography>
+           </Box>
+        </Box>
 
         <Box
           onClick={handleClick}
@@ -495,7 +512,6 @@ export default function CreateView() {
                 variant="caption"
                 color="text.secondary"
                 display="block"
-                mt={1}
               >
                 Max. file size: 3MB
               </Typography>
@@ -519,10 +535,15 @@ export default function CreateView() {
           )}
         </Box>
 
-        <Box>
+        <Box sx={{ mt: "36px" }}>
           <Typography
             variant="subtitle1"
-            sx={{ color: "primary.main", fontSize: "24px", lineHeight: 1, mt: 3 }}
+            sx={{
+              color: "primary.main",
+              fontSize: "24px",
+              lineHeight: 1,
+              mt: 3,
+            }}
           >
             Event Information
           </Typography>
@@ -531,20 +552,27 @@ export default function CreateView() {
               width: "317px",
               height: "1px",
               backgroundColor: "primary.main",
-              my: 1,
+              m: "8px 0 32px",
             }}
           />
 
-          <Grid container spacing={3}>
+          <Grid container rowSpacing={3}>
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
             >
-              Event Name *{" "}
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Name</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="eventName"
                 control={control}
@@ -563,12 +591,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Title *{" "}
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Title</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="eventTitle"
                 control={control}
@@ -587,12 +623,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Short Description *{" "}
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Short Description</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="description"
                 control={control}
@@ -611,12 +655,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Category *{" "}
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Category</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <Select
@@ -668,12 +720,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Date *{" "}
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Date</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Controller
@@ -717,12 +777,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Time *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Time</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Controller
@@ -766,12 +834,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Type *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Type</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="eventType"
                 control={control}
@@ -798,12 +874,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Enter Event location *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Enter Event location</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="location"
                 control={control}
@@ -822,12 +906,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Location Link (YouTube) *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Location Link (YouTube)</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="locationLink"
                 control={control}
@@ -846,12 +938,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Video Link *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Video Link</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="eventVideoLink"
                 control={control}
@@ -870,12 +970,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Event Meeting Link *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Event Meeting Link</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="meetingLink"
                 control={control}
@@ -894,12 +1002,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Registration Link *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Registration Link</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="registrationLink"
                 control={control}
@@ -918,12 +1034,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              Country *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>Country</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="country"
                 control={control}
@@ -950,12 +1074,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              District *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>District</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="district"
                 control={control}
@@ -982,12 +1114,20 @@ export default function CreateView() {
             <Grid
               item
               xs={12}
-              sm={3}
-              sx={{ display: "flex", alignItems: "center" }}
+              sm={4}
+              sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              City *
+              <Typography  sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                "&::after": {
+                  content: '"*"',
+                  position: "absolute",
+                  right: -15,
+                  color: "red",
+                }
+              }}>City</Typography>
             </Grid>
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
               <Controller
                 name="city"
                 control={control}
@@ -1159,10 +1299,10 @@ export default function CreateView() {
             size="large"
             fullWidth
             disabled={isSubmitting || isLoading}
+            sx={{ mt: 2 }}
           >
-            {isSubmitting || isLoading ? 'Creating Event...' : 'Create Event'}
+            {isSubmitting || isLoading ? "Creating Event..." : "Create Event"}
           </Button>
-
         </Box>
       </form>
     </Box>
