@@ -9,6 +9,8 @@
 
 # Backend
 - [] No property for Event name
+## Detail
+- [ ] Unable to show Country data
 
 # Todo
 - [x] highlight text, "100,000+ events releasing this year!" and change text.
