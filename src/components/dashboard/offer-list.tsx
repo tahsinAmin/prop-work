@@ -78,11 +78,13 @@ const OfferList = () => {
     return <Alert severity="error">Something went wrong</Alert>
   }
 
-  {loading && (
+  {
+    loading && (
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
         <CircularProgress />
       </Box>
-  )}
+    )
+  }
 
   return (
     <Box>
@@ -106,7 +108,9 @@ const OfferList = () => {
           Status
         </Grid>
         <Grid item xs={12} md={2}>
-          Actions
+          <Box sx={{ pl: '45px' }}>
+            Actions
+          </Box>
         </Grid>
       </Grid>
 
@@ -116,38 +120,51 @@ const OfferList = () => {
         const formattedIndex = displayIndex < 10 ? `0${displayIndex}` : `${displayIndex}`;
 
         return (
-          <Grid key={event?.id} container spacing={1} sx={{ p: '38px 40px 32px', mb: '20px', borderRadius: 2, border: '1px solid #E0E0E0' }} onClick={() => router.push(`/detail/${event?.id}`)}>
+          <Grid key={event?.id} container spacing={1} sx={{ p: '22px 40px 23px', mb: '20px', borderRadius: 2, border: '1px solid #E0E0E0' }} onClick={() => router.push(`/detail/${event?.id}`)}>
             <Grid item xs={12} md={1} sx={{ fontWeight: 500, display: 'flex', alignItems: 'center' }}>
               {formattedIndex}
             </Grid>
-            <Grid item xs={12} md={2}>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>{event?.title}</Typography>
-              <Typography variant="caption" color="textSecondary">
-                Powered by {event?.admin_comment}
-              </Typography>
+            <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box>
+                <Typography variant="body2" sx={{ fontWeight: 500 }}>{event?.title}</Typography>
+                <Typography variant="caption" color="textSecondary">
+                  Powered by {event?.admin_comment}
+                </Typography>
+              </Box>
             </Grid>
-            <Grid item xs={12} md={2}>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                {dayjs(event?.start_date).format("MMMM DD, YYYY")}
-              </Typography>
-              <Typography variant="caption" color="textSecondary">
-                {event?.start_time?.slice(0, 5)} -{" "}
-                {event?.end_time?.slice(0, 5)}
-              </Typography>
+            <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box>
+                <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                  {dayjs(event?.start_date).format("MMMM DD, YYYY")}
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  {event?.start_time?.slice(0, 5)} -{" "}
+                  {event?.end_time?.slice(0, 5)}
+                </Typography>
+              </Box>
             </Grid>
-            <Grid item xs={12} md={2}>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>{event?.country}</Typography>
-              <Typography variant="caption" color="textSecondary">
-                {event?.city}
-              </Typography>
+            <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box>
+                <Typography variant="body2" sx={{ fontWeight: 500 }}>{event?.country}</Typography>
+                <Typography variant="caption" color="textSecondary">
+                  {event?.city}
+                </Typography>
+              </Box>
             </Grid>
-            <Grid item xs={12} md={2}>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>{event?.country}</Typography>
-              <Typography variant="caption" color="textSecondary">
-                {event?.location}
-              </Typography>
+            <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ width: '171px' }}>
+                <Typography variant="body2" sx={{ fontWeight: 500 }}>{event?.country}</Typography>
+                <Typography variant="caption" color="textSecondary" noWrap
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: 'block',
+                  }}>
+                  {event?.location}
+                </Typography>
+              </Box>
             </Grid>
-            <Grid item xs={12} md={1}>
+            <Grid item xs={12} md={1} sx={{ display: 'flex', alignItems: 'center' }}>
               <Chip
                 label={statusStyle.label}
                 color={
@@ -161,19 +178,21 @@ const OfferList = () => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12} md={2}>
-              <IconButton size="small">
-                <VisibilityOutlined />
-              </IconButton>
-              <IconButton size="small">
-                <FileCopyOutlined />
-              </IconButton>
-              <IconButton size="small">
-                <EditOutlined />
-              </IconButton>
-              <IconButton size="small">
-                <DeleteOutline />
-              </IconButton>
+            <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center'}}>
+              <Box sx={{ pl: '45px' }}>
+                <IconButton size="small">
+                  <VisibilityOutlined />
+                </IconButton>
+                <IconButton size="small">
+                  <FileCopyOutlined />
+                </IconButton>
+                <IconButton size="small">
+                  <EditOutlined />
+                </IconButton>
+                <IconButton size="small">
+                  <DeleteOutline />
+                </IconButton>
+              </Box>
             </Grid>
           </Grid>
         );

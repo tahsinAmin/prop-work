@@ -466,17 +466,17 @@ export default function CreateView() {
           Event Cover Image
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
-           <Box>
-           <Typography variant="body2" sx={{ color: "black", fontWeight: "600", fontSize: "16px", mb: '0' }} gutterBottom>Images</Typography>
+          <Box>
+            <Typography variant="body2" sx={{ color: "black", fontWeight: "600", fontSize: "16px", mb: '0' }} gutterBottom>Images</Typography>
             <Typography variant="body2" color="#A8B0BF" gutterBottom>
               Upload photos that describe your event visually
             </Typography>
-           </Box>
-           <Box>
-            <Typography variant="body2" color="#A8B0BF"  sx={{ fontWeight: "600" }}>
+          </Box>
+          <Box>
+            <Typography variant="body2" color="#A8B0BF" sx={{ fontWeight: "600" }}>
               (Maximum - 10MB)
             </Typography>
-           </Box>
+          </Box>
         </Box>
 
         <Box
@@ -562,7 +562,7 @@ export default function CreateView() {
               xs={12}
               sm={4}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -594,7 +594,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -626,7 +626,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -658,7 +658,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -723,7 +723,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -780,7 +780,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -837,7 +837,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -877,7 +877,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -909,7 +909,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -941,7 +941,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -973,7 +973,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -1005,7 +1005,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -1037,7 +1037,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -1077,7 +1077,7 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
+              <Typography sx={{
                 display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
                 "&::after": {
                   content: '"*"',
@@ -1117,8 +1117,8 @@ export default function CreateView() {
               sm={4}
               sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
             >
-              <Typography  sx={{
-                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+              <Typography sx={{
+                display: "inline", alignItems: "center", fontWeight: "500", fontSize: "14px", position: "relative",
                 "&::after": {
                   content: '"*"',
                   position: "absolute",
@@ -1172,56 +1172,88 @@ export default function CreateView() {
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ textTransform: "none", width: "218px", height: "60px" }}
+                sx={{ textTransform: "none", width: "400px", height: "60px", mb: 2 }}
               >
                 Add New field
               </Button>
               <Grid container spacing={3}>
-                {/* <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>Registration Link *</Grid>
-              <Grid item xs={12} sm={9}>
-                <Controller
-                  name="registrationLink"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Type here"
-                      fullWidth
-                      error={!!errors.registrationLink}
-                      helperText={errors.registrationLink?.message}
-                    />
-                  )}
-                />
-              </Grid> */}
-
-                <Grid
-                  item
-                  xs={12}
-                  sm={3}
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  Country *
+                <Grid item xs={12} sm={4} sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}>
+                  <Typography sx={{
+                    display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative", color: "primary.main",
+                    "&::after": {
+                      content: '"*"',
+                      position: "absolute",
+                      right: -15,
+                      color: "red",
+                    }
+                  }}>Add New field Name</Typography>
                 </Grid>
-                <Grid item xs={12} sm={9}>
+                <Grid item xs={12} sm={5}>
                   <Controller
-                    name="country"
+                    name="fieldName"
                     control={control}
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        select
                         label="Type here"
                         fullWidth
-                        error={!!errors.country}
-                        helperText={errors.country?.message}
-                      >
-                        <MenuItem value="">Choose here</MenuItem>
-                        {countries.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                        error={!!errors.fieldName}
+                        helperText={errors.fieldName?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <Select
+                    labelId="category-label"
+                    id="category-select"
+                    value={selectedCategory}
+                    label="Select Category"
+                    onChange={handleCategoryChange}
+                    fullWidth
+                  >
+                    {Object.keys(categories).map((category) => (
+                      <MenuItem key={category} value={category}>
+                        {category
+                          .split("_")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ")}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
+                >
+                  <Typography sx={{
+                    display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                    "&::after": {
+                      content: '"*"',
+                      position: "absolute",
+                      right: -15,
+                      color: "red",
+                    }
+                  }}>Full Name</Typography>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <Controller
+                    name="fullName"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Type here"
+                        fullWidth
+                        error={!!errors.fullName}
+                        helperText={errors.fullName?.message}
+                      />
                     )}
                   />
                 </Grid>
@@ -1229,31 +1261,31 @@ export default function CreateView() {
                 <Grid
                   item
                   xs={12}
-                  sm={3}
-                  sx={{ display: "flex", alignItems: "center" }}
+                  sm={4}
+                  sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
                 >
-                  District *
+                  <Typography sx={{
+                    display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                    "&::after": {
+                      content: '"*"',
+                      position: "absolute",
+                      right: -15,
+                      color: "red",
+                    }
+                  }}>Email address</Typography>
                 </Grid>
-                <Grid item xs={12} sm={9}>
+                <Grid item xs={12} sm={8}>
                   <Controller
-                    name="district"
+                    name="email"
                     control={control}
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        select
                         label="Type here"
                         fullWidth
-                        error={!!errors.district}
-                        helperText={errors.district?.message}
-                      >
-                        <MenuItem value="">Choose here</MenuItem>
-                        {districts.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                        error={!!errors.email}
+                        helperText={errors.email?.message}
+                      />
                     )}
                   />
                 </Grid>
@@ -1261,34 +1293,68 @@ export default function CreateView() {
                 <Grid
                   item
                   xs={12}
-                  sm={3}
-                  sx={{ display: "flex", alignItems: "center" }}
+                  sm={4}
+                  sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
                 >
-                  City *
+                  <Typography sx={{
+                    display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                    "&::after": {
+                      content: '"*"',
+                      position: "absolute",
+                      right: -15,
+                      color: "red",
+                    }
+                  }}>Phone Number</Typography>
                 </Grid>
-                <Grid item xs={12} sm={9}>
+                <Grid item xs={12} sm={8}>
                   <Controller
-                    name="city"
+                    name="contactNumber"
                     control={control}
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        select
                         label="Type here"
                         fullWidth
-                        error={!!errors.city}
-                        helperText={errors.city?.message}
-                      >
-                        <MenuItem value="">Choose here</MenuItem>
-                        {cities.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                        error={!!errors.contactNumber}
+                        helperText={errors.contactNumber?.message}
+                      />
                     )}
                   />
                 </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  sx={{ display: "flex", alignItems: "center", fontWeight: "500", fontSize: "20px" }}
+                >
+                  <Typography sx={{
+                    display: "inline", alignItems: "center", fontWeight: "500", fontSize: "20px", position: "relative",
+                    "&::after": {
+                      content: '"*"',
+                      position: "absolute",
+                      right: -15,
+                      color: "red",
+                    }
+                  }}>Company Name</Typography>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                  <Controller
+                    name="companyName"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Type here"
+                        fullWidth
+                        error={!!errors.companyName}
+                        helperText={errors.companyName?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+
+
               </Grid>
             </Grid>
           </Grid>
