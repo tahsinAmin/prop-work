@@ -34,6 +34,7 @@
 .swiper-slide {
   width: 402.333px !important; 
   margin-right: 30px !important;
+  background: transparent;
 }
 
 .swiper-button-next, .swiper-button-prev {
@@ -65,3 +66,7 @@
   font-weight: bolder;
 }
 
+
+.swiper-slide img {
+  height: 222px;
+}
